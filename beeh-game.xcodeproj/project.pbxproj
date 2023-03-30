@@ -98,12 +98,9 @@
 		0075EC8129D5C6F300FD4087 /* beeh-game */ = {
 			isa = PBXGroup;
 			children = (
-				0075EC8229D5C6F300FD4087 /* AppDelegate.swift */,
-				0075EC8829D5C6F300FD4087 /* GameScene.swift */,
-				0075EC8A29D5C6F300FD4087 /* GameViewController.swift */,
-				0075EC8C29D5C6F300FD4087 /* Main.storyboard */,
-				0075EC8F29D5C6F400FD4087 /* Assets.xcassets */,
-				0075EC9129D5C6F400FD4087 /* LaunchScreen.storyboard */,
+				0075ECBB29D5CBF300FD4087 /* View */,
+				0075ECBA29D5CB6C00FD4087 /* Resource */,
+				0075ECB929D5CB6600FD4087 /* Application */,
 			);
 			path = "beeh-game";
 			sourceTree = "<group>";
@@ -123,6 +120,41 @@
 				0075ECA829D5C6F500FD4087 /* beeh_gameUITestsLaunchTests.swift */,
 			);
 			path = "beeh-gameUITests";
+			sourceTree = "<group>";
+		};
+		0075ECB929D5CB6600FD4087 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				0075EC8C29D5C6F300FD4087 /* Main.storyboard */,
+				0075EC8229D5C6F300FD4087 /* AppDelegate.swift */,
+				0075EC9129D5C6F400FD4087 /* LaunchScreen.storyboard */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		0075ECBA29D5CB6C00FD4087 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				0075EC8F29D5C6F400FD4087 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		0075ECBB29D5CBF300FD4087 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0075ECBC29D5CBFE00FD4087 /* MainScene */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0075ECBC29D5CBFE00FD4087 /* MainScene */ = {
+			isa = PBXGroup;
+			children = (
+				0075EC8829D5C6F300FD4087 /* GameScene.swift */,
+				0075EC8A29D5C6F300FD4087 /* GameViewController.swift */,
+			);
+			path = MainScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
