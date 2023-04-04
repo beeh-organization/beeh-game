@@ -14,7 +14,7 @@ class GameScene: SKScene {
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
-        return SKSpriteNode(texture: atlas.textureNamed("sheep_walk1"))
+        return SKSpriteNode(texture: atlas.textureNamed("sheep_walk01"))
     }()
     private lazy var joystick: Joystick = {
         let joystick = Joystick(
@@ -27,6 +27,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
+        sheepMove()
     }
 }
 
@@ -65,11 +66,12 @@ extension GameScene {
             SKAction.repeatForever(
                 SKAction.animate(
                     with: SKTextureAtlas(named: "SheepWalk").textureNames.map(SKTexture.init(imageNamed:)),
-                    timePerFrame: 1/2,
+                    timePerFrame: 1/4,
                     resize: false,
                     restore: true
                 )
             )
         )
     }
+    
 }
