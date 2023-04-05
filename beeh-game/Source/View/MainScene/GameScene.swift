@@ -21,6 +21,17 @@ class GameScene: SKScene {
 
     let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "lobinho")
 
+    enum Sheep: UInt32{
+        case bitmask = 4
+    }
+
+    enum Enemy: UInt32{
+        case bitmask = 2
+    }
+
+    enum Obstable: UInt32{
+        case bitmask = 1
+    }
 
     private lazy var joystick: Joystick = {
         let joystick = Joystick(
@@ -35,6 +46,8 @@ class GameScene: SKScene {
         buildLayout()
         sheepMove()
         physicsSetup()
+
+//        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
     }
 }
 
@@ -92,35 +105,39 @@ extension GameScene {
     }
 
     func physicsSetup() {
-        sheep.physicsBody = SKPhysicsBody(texture: sheep.texture!, size: sheep.size)
+        sheep.physicsBody = SKPhysicsBody(rectangleOf: sheep.size)
         sheep.physicsBody?.affectedByGravity = false
         sheep.physicsBody?.allowsRotation = false
 
         tree.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         tree.physicsBody?.isDynamic = false
 
-        enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
+        enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
         enemy.physicsBody?.isDynamic = false
 
-        tree.physicsBody?.categoryBitMask = 0b0001
-        enemy.physicsBody?.categoryBitMask = 0b0010
+        tree.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        enemy.physicsBody?.categoryBitMask = Enemy.bitmask.rawValue
 
-        sheep.physicsBody?.collisionBitMask = 0b0001
+        sheep.physicsBody?.collisionBitMask = Obstable.bitmask.rawValue
 
         sheep.name = "sheep_walk01"
         enemy.name = "lobinho"
-        sheep.physicsBody?.contactTestBitMask = 0b0010
+        sheep.physicsBody?.contactTestBitMask = Enemy.bitmask.rawValue
         self.physicsWorld.contactDelegate = self
     }
-    
+
+//    @objc func firedTimer() {
+//        let node: SKSpriteNode = SKSpriteNode(imageNamed: "Lamb")
+//        let Xcordinate = Int.random(in: 100...Int(UIScreen.main.bounds.width))
+//        let Ycordinate = Int.random(in: 100...Int(UIScreen.main.bounds.height))
+//        node.position = CGPoint(x: Xcordinate, y: Ycordinate)
+//        addChild(node)
+//    }
 }
 
 extension GameScene: SKPhysicsContactDelegate{
     func didBegin(_ contact:SKPhysicsContact){
-        print("A:", contact.bodyA.node?.name ?? "no node")
-        print("A:", contact.bodyB.node?.name ?? "no node")
         if contact.bodyB == enemy.physicsBody{
-            print("Ovelha foi de arrasta pra cima")
             sheep.run(SKAction.sequence([
                 SKAction.fadeOut(withDuration: 0.2),
                 SKAction.fadeIn(withDuration: 0.2)
