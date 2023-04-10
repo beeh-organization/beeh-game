@@ -16,6 +16,23 @@ class GameScene: SKScene {
         let atlas = SKTextureAtlas(named: "SheepWalk")
         return SKSpriteNode(texture: atlas.textureNamed("sheep_walk01"))
     }()
+
+    let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
+
+    let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "lobinho")
+
+    enum Sheep: UInt32{
+        case bitmask = 4
+    }
+
+    enum Enemy: UInt32{
+        case bitmask = 2
+    }
+
+    enum Obstable: UInt32{
+        case bitmask = 1
+    }
+
     private lazy var joystick: Joystick = {
         let joystick = Joystick(
             size: CGSize(width: 100, height: 100),
@@ -28,6 +45,9 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         buildLayout()
         sheepMove()
+        physicsSetup()
+
+//        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
     }
 }
 
@@ -42,6 +62,14 @@ extension GameScene: ViewCoding {
         sheep.position = CGPoint(x: view.frame.midX, y:  view.frame.midY + 200)
         sheep.size.width *= 0.25
         sheep.size.height *= 0.25
+
+        tree.position = CGPoint(x: frame.maxX * 0.9, y: frame.maxY * 0.20)
+        tree.size.width *= 0.2
+        tree.size.height *= 0.2
+
+        enemy.position = CGPoint(x: frame.maxX * 0.20, y: frame.maxY * 0.9)
+        enemy.size.width *= 0.2
+        enemy.size.height *= 0.2
         
         joystick.position = CGPoint(x: view.frame.maxX * 0.1, y:  view.frame.maxY * 0.15)
     }
@@ -50,6 +78,8 @@ extension GameScene: ViewCoding {
         addChild(background)
         addChild(sheep)
         addChild(joystick)
+        addChild(tree)
+        addChild(enemy)
     }
 }
 
@@ -73,5 +103,46 @@ extension GameScene {
             )
         )
     }
-    
+
+    func physicsSetup() {
+        sheep.physicsBody = SKPhysicsBody(rectangleOf: sheep.size)
+        sheep.physicsBody?.affectedByGravity = false
+        sheep.physicsBody?.allowsRotation = false
+
+        tree.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        tree.physicsBody?.isDynamic = false
+
+        enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
+        enemy.physicsBody?.isDynamic = false
+
+        tree.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        enemy.physicsBody?.categoryBitMask = Enemy.bitmask.rawValue
+
+        sheep.physicsBody?.collisionBitMask = Obstable.bitmask.rawValue
+
+        sheep.name = "sheep_walk01"
+        enemy.name = "lobinho"
+        sheep.physicsBody?.contactTestBitMask = Enemy.bitmask.rawValue
+        self.physicsWorld.contactDelegate = self
+    }
+
+//    @objc func firedTimer() {
+//        let node: SKSpriteNode = SKSpriteNode(imageNamed: "Lamb")
+//        let Xcordinate = Int.random(in: 100...Int(UIScreen.main.bounds.width))
+//        let Ycordinate = Int.random(in: 100...Int(UIScreen.main.bounds.height))
+//        node.position = CGPoint(x: Xcordinate, y: Ycordinate)
+//        addChild(node)
+//    }
+}
+
+extension GameScene: SKPhysicsContactDelegate{
+    func didBegin(_ contact:SKPhysicsContact){
+        if contact.bodyB == enemy.physicsBody{
+            sheep.run(SKAction.sequence([
+                SKAction.fadeOut(withDuration: 0.2),
+                SKAction.fadeIn(withDuration: 0.2)
+            ])
+            )
+        }
+    }
 }
