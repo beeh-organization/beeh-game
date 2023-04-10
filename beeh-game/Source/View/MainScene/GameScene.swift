@@ -34,6 +34,9 @@ class GameScene: SKScene {
     enum Obstable: UInt32{
         case bitmask = 1
     }
+    enum Lamb: UInt32{
+        case bitmask = 6
+    }
 
     private lazy var joystick: Joystick = {
         let joystick = Joystick(
@@ -117,8 +120,12 @@ extension GameScene {
         enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
         enemy.physicsBody?.isDynamic = false
 
+        lamb.physicsBody = SKPhysicsBody(rectangleOf: lamb.size)
+        lamb.physicsBody?.isDynamic = false
+
         tree.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
         enemy.physicsBody?.categoryBitMask = Enemy.bitmask.rawValue
+        lamb.physicsBody?.categoryBitMask = Lamb.bitmask.rawValue
 
         sheep.physicsBody?.collisionBitMask = Obstable.bitmask.rawValue
 
@@ -126,6 +133,11 @@ extension GameScene {
         sheep.name = "sheep_walk01"
         enemy.name = "lobinho"
         sheep.physicsBody?.contactTestBitMask = Enemy.bitmask.rawValue
+        self.physicsWorld.contactDelegate = self
+
+        sheep.name = "sheep_walk01"
+        lamb.name = "Lamb"
+        sheep.physicsBody?.contactTestBitMask = Lamb.bitmask.rawValue
         self.physicsWorld.contactDelegate = self
     }
 
@@ -143,6 +155,16 @@ extension GameScene {
 extension GameScene: SKPhysicsContactDelegate{
     func didBegin(_ contact:SKPhysicsContact){
         if contact.bodyB == enemy.physicsBody{
+//            self.children.first { $0 == contact.bodyB }?.removeFromParent()
+            sheep.run(SKAction.sequence([
+                SKAction.fadeOut(withDuration: 0.2),
+                SKAction.fadeIn(withDuration: 0.2)
+            ])
+            )
+        }
+
+        if contact.bodyB == lamb.physicsBody{
+            self.children.first { $0 == contact.bodyB }?.removeFromParent()
             sheep.run(SKAction.sequence([
                 SKAction.fadeOut(withDuration: 0.2),
                 SKAction.fadeIn(withDuration: 0.2)
