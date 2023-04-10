@@ -11,6 +11,7 @@ import GameplayKit
 //- MARK: Init Variables
 
 class GameScene: SKScene {
+    var capturedLambs: [SKNode] = [SKNode]()
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
@@ -18,7 +19,6 @@ class GameScene: SKScene {
     }()
 
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
-
     let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "lobinho")
 
     enum Sheep: UInt32{
@@ -31,6 +31,9 @@ class GameScene: SKScene {
 
     enum Obstable: UInt32{
         case bitmask = 1
+    }
+    enum Lamb: UInt32{
+        case bitmask = 6
     }
 
     private lazy var joystick: Joystick = {
@@ -47,7 +50,7 @@ class GameScene: SKScene {
         sheepMove()
         physicsSetup()
 
-//        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
     }
 }
 
@@ -90,6 +93,13 @@ extension GameScene {
         sheep.position.x += joystick.velocityX
         sheep.position.y += joystick.velocityY
     }
+
+    func setLambPhyisics(_ lamb: SKSpriteNode) {
+        lamb.physicsBody = SKPhysicsBody(rectangleOf: lamb.size)
+        lamb.physicsBody?.isDynamic = false
+        lamb.name = "Lamb"
+        sheep.physicsBody?.contactTestBitMask += Lamb.bitmask.rawValue
+    }
     
     func sheepMove() {
         sheep.run(
@@ -122,27 +132,42 @@ extension GameScene {
 
         sheep.name = "sheep_walk01"
         enemy.name = "lobinho"
+
         sheep.physicsBody?.contactTestBitMask = Enemy.bitmask.rawValue
+
         self.physicsWorld.contactDelegate = self
     }
 
-//    @objc func firedTimer() {
-//        let node: SKSpriteNode = SKSpriteNode(imageNamed: "Lamb")
-//        let Xcordinate = Int.random(in: 100...Int(UIScreen.main.bounds.width))
-//        let Ycordinate = Int.random(in: 100...Int(UIScreen.main.bounds.height))
-//        node.position = CGPoint(x: Xcordinate, y: Ycordinate)
-//        addChild(node)
-//    }
+    @objc func firedTimer() {
+        let lamb: SKSpriteNode = SKSpriteNode(imageNamed: "Lamb")
+        let Xcordinate = Int.random(in: 100...Int(UIScreen.main.bounds.width))
+        let Ycordinate = Int.random(in: 100...Int(UIScreen.main.bounds.height))
+        lamb.position = CGPoint(x: Xcordinate, y: Ycordinate)
+        lamb.size.width *= 0.05
+        lamb.size.height *= 0.05
+        setLambPhyisics(lamb)
+        addChild(lamb)
+    }
 }
 
 extension GameScene: SKPhysicsContactDelegate{
     func didBegin(_ contact:SKPhysicsContact){
-        if contact.bodyB == enemy.physicsBody{
+        if contact.bodyB == enemy.physicsBody {
             sheep.run(SKAction.sequence([
                 SKAction.fadeOut(withDuration: 0.2),
                 SKAction.fadeIn(withDuration: 0.2)
             ])
             )
+        }
+
+        if contact.bodyB.node?.name == "Lamb" {
+            for child in children {
+                if child.physicsBody == contact.bodyB.node?.physicsBody {
+                    child.removeFromParent()
+                    capturedLambs.append(child)
+                    print(capturedLambs.count)
+                }
+            }
         }
     }
 }
