@@ -21,6 +21,7 @@ class GameScene: SKScene {
 
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
     let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "lobinho")
+    let accessories: [Accessory] = [Scarf()]
 
     enum Sheep: UInt32{
         case bitmask = 4
@@ -51,6 +52,7 @@ class GameScene: SKScene {
             isAscending: false,
             size: CGSize(width: 400, height: 32)
         )
+        progressBar.factor = 10 - calculateColdResistance()
         progressBar.zPosition = 1
         return progressBar
     }()
@@ -60,6 +62,7 @@ class GameScene: SKScene {
         sheepMove()
         physicsSetup()
         progressBar.initializeBarValue()
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(increaseCold), userInfo: nil, repeats: true)
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
     }
 }
@@ -159,6 +162,16 @@ extension GameScene {
         lamb.size.height *= 0.05
         setLambPhyisics(lamb)
         addChild(lamb)
+    }
+    
+    func calculateColdResistance() -> CGFloat {
+        var coldResistance = 0.0
+        accessories.forEach { coldResistance += $0.resistance }
+        return coldResistance
+    }
+    
+    @objc func increaseCold() {
+        progressBar.updateBarState()
     }
 }
 

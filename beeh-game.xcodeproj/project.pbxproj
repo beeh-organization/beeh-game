@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0031D69029E43F9A00852A4C /* HorizontalProgressBar in Frameworks */ = {isa = PBXBuildFile; productRef = 0031D68F29E43F9A00852A4C /* HorizontalProgressBar */; };
+		0031D69229E44F0400852A4C /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0031D69129E44F0400852A4C /* Accessory.swift */; };
+		0031D69529E44FF600852A4C /* Scarf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0031D69429E44FF600852A4C /* Scarf.swift */; };
 		00582AFF29DC534400E70FA8 /* ViewCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00582AFE29DC534400E70FA8 /* ViewCoding.swift */; };
 		00582B0229DC60BF00E70FA8 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00582B0129DC60BF00E70FA8 /* Joystick.swift */; };
 		0075EC8329D5C6F300FD4087 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075EC8229D5C6F300FD4087 /* AppDelegate.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0031D69129E44F0400852A4C /* Accessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessory.swift; sourceTree = "<group>"; };
+		0031D69429E44FF600852A4C /* Scarf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scarf.swift; sourceTree = "<group>"; };
 		00582AFE29DC534400E70FA8 /* ViewCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCoding.swift; sourceTree = "<group>"; };
 		00582B0129DC60BF00E70FA8 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		0075EC7F29D5C6F300FD4087 /* beeh-game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "beeh-game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,10 +87,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0031D69329E44FE800852A4C /* Accesories */ = {
+			isa = PBXGroup;
+			children = (
+				0031D69429E44FF600852A4C /* Scarf.swift */,
+			);
+			path = Accesories;
+			sourceTree = "<group>";
+		};
 		00582AFC29DC526400E70FA8 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				00582AFE29DC534400E70FA8 /* ViewCoding.swift */,
+				0031D69129E44F0400852A4C /* Accessory.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -195,6 +208,7 @@
 		64A1D18829DDADE100B29A22 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0031D69329E44FE800852A4C /* Accesories */,
 				64A1D18929DDADFA00B29A22 /* LambModel.swift */,
 			);
 			path = Model;
@@ -338,9 +352,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0075EC8929D5C6F300FD4087 /* GameScene.swift in Sources */,
+				0031D69229E44F0400852A4C /* Accessory.swift in Sources */,
 				0075EC8B29D5C6F300FD4087 /* GameViewController.swift in Sources */,
 				00582B0229DC60BF00E70FA8 /* Joystick.swift in Sources */,
 				00582AFF29DC534400E70FA8 /* ViewCoding.swift in Sources */,
+				0031D69529E44FF600852A4C /* Scarf.swift in Sources */,
 				0075EC8329D5C6F300FD4087 /* AppDelegate.swift in Sources */,
 				64A1D18A29DDADFA00B29A22 /* LambModel.swift in Sources */,
 			);
