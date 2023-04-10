@@ -12,6 +12,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     var capturedLambs: [SKNode] = [SKNode]()
+    var cam: SKCameraNode = SKCameraNode()
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
@@ -35,6 +36,13 @@ class GameScene: SKScene {
     enum Lamb: UInt32{
         case bitmask = 6
     }
+    private func cameraSetup() {
+        cam = SKCameraNode()
+        cam.zPosition = 10
+        cam.position = CGPoint(x: size.width/2, y: size.height/2)
+        camera = cam
+
+    }
 
     private lazy var joystick: Joystick = {
         let joystick = Joystick(
@@ -49,6 +57,10 @@ class GameScene: SKScene {
         buildLayout()
         sheepMove()
         physicsSetup()
+        cameraSetup()
+
+
+        
 
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
     }
@@ -83,6 +95,7 @@ extension GameScene: ViewCoding {
         addChild(joystick)
         addChild(tree)
         addChild(enemy)
+        addChild(cam)
     }
 }
 
@@ -92,6 +105,7 @@ extension GameScene {
     override func update(_ currentTime: TimeInterval) {
         sheep.position.x += joystick.velocityX
         sheep.position.y += joystick.velocityY
+        cam.position = sheep.position
     }
 
     func setLambPhyisics(_ lamb: SKSpriteNode) {
