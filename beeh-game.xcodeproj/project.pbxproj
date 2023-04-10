@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0031D69029E43F9A00852A4C /* HorizontalProgressBar in Frameworks */ = {isa = PBXBuildFile; productRef = 0031D68F29E43F9A00852A4C /* HorizontalProgressBar */; };
 		00582AFF29DC534400E70FA8 /* ViewCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00582AFE29DC534400E70FA8 /* ViewCoding.swift */; };
 		00582B0229DC60BF00E70FA8 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00582B0129DC60BF00E70FA8 /* Joystick.swift */; };
 		0075EC8329D5C6F300FD4087 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075EC8229D5C6F300FD4087 /* AppDelegate.swift */; };
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0031D69029E43F9A00852A4C /* HorizontalProgressBar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +216,9 @@
 			dependencies = (
 			);
 			name = "beeh-game";
+			packageProductDependencies = (
+				0031D68F29E43F9A00852A4C /* HorizontalProgressBar */,
+			);
 			productName = "beeh-game";
 			productReference = 0075EC7F29D5C6F300FD4087 /* beeh-game.app */;
 			productType = "com.apple.product-type.application";
@@ -286,6 +291,9 @@
 				Base,
 			);
 			mainGroup = 0075EC7629D5C6F300FD4087;
+			packageReferences = (
+				0031D68E29E43F9A00852A4C /* XCRemoteSwiftPackageReference "horizontal-progressbar" */,
+			);
 			productRefGroup = 0075EC8029D5C6F300FD4087 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -678,6 +686,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0031D68E29E43F9A00852A4C /* XCRemoteSwiftPackageReference "horizontal-progressbar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ThiagoHBA/horizontal-progressbar";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0031D68F29E43F9A00852A4C /* HorizontalProgressBar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0031D68E29E43F9A00852A4C /* XCRemoteSwiftPackageReference "horizontal-progressbar" */;
+			productName = HorizontalProgressBar;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0075EC7729D5C6F300FD4087 /* Project object */;
 }

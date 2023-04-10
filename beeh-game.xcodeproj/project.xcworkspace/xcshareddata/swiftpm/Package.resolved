@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "horizontal-progressbar",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ThiagoHBA/horizontal-progressbar",
+      "state" : {
+        "branch" : "main",
+        "revision" : "fde0dfb48dd872bf09458e25c065eeb27861a2c6"
+      }
+    }
+  ],
+  "version" : 2
+}
