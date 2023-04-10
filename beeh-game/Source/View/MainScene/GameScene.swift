@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import HorizontalProgressBar
 
 //- MARK: Init Variables
 
@@ -42,11 +43,20 @@ class GameScene: SKScene {
         return joystick
     }()
     
+    private lazy var progressBar: HorizontalProgressBar = {
+        let progressBar = HorizontalProgressBar(
+            isAscending: false,
+            size: CGSize(width: 400, height: 32)
+        )
+        progressBar.zPosition = 1
+        return progressBar
+    }()
+    
     override func didMove(to view: SKView) {
         buildLayout()
         sheepMove()
         physicsSetup()
-
+        progressBar.initializeBarValue()
 //        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
     }
 }
@@ -72,6 +82,7 @@ extension GameScene: ViewCoding {
         enemy.size.height *= 0.2
         
         joystick.position = CGPoint(x: view.frame.maxX * 0.1, y:  view.frame.maxY * 0.15)
+        progressBar.position = CGPoint(x: view.frame.maxX * 0.82, y:  view.frame.maxY * 0.92)
     }
     
     func addViewHierarchy() {
@@ -80,6 +91,7 @@ extension GameScene: ViewCoding {
         addChild(joystick)
         addChild(tree)
         addChild(enemy)
+        addChild(progressBar)
     }
 }
 
