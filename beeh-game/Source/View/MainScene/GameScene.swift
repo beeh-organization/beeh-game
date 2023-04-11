@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import HorizontalProgressBar
 
 //- MARK: Init Variables
 
@@ -21,6 +22,7 @@ class GameScene: SKScene {
 
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
     let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "lobinho")
+    let accessories: [Accessory] = [Scarf()]
 
     enum Sheep: UInt32{
         case bitmask = 4
@@ -52,9 +54,27 @@ class GameScene: SKScene {
         return joystick
     }()
     
+    private lazy var progressBar: HorizontalProgressBar = {
+        let progressBar = HorizontalProgressBar(
+            isAscending: false,
+            size: CGSize(width: 400, height: 32)
+        )
+        progressBar.factor = 10 - calculateColdResistance()
+        progressBar.zPosition = 1
+        return progressBar
+    }()
+    
     override func didMove(to view: SKView) {
         buildLayout()
-        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
+        sheepMove()
+        physicsSetup()
+        progressBar.initializeBarValue()
+        configureTimers()
+    }
+    
+    func configureTimers() {
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(increaseCold), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(generateLamb), userInfo: nil, repeats: true)
     }
 }
 
@@ -82,11 +102,13 @@ extension GameScene: ViewCoding {
         enemy.position = CGPoint(x: frame.maxX * 0.20, y: frame.maxY * 0.9)
         enemy.size.width *= 0.2
         enemy.size.height *= 0.2
-        
+
         joystick.position = CGPoint(
             x: -size.width * 0.37,
             y: -size.height * 0.35
         )
+
+        progressBar.position = CGPoint(x: view.frame.maxX * 0.82, y:  view.frame.maxY * 0.92)
     }
     
     func addViewHierarchy() {
@@ -96,6 +118,7 @@ extension GameScene: ViewCoding {
         addChild(enemy)
         addChild(cam)
         cam.addChild(joystick)
+        addChild(progressBar)
     }
 }
 
@@ -106,13 +129,6 @@ extension GameScene {
         sheep.position.x += joystick.velocityX
         sheep.position.y += joystick.velocityY
         cam.position = sheep.position
-    }
-
-    func setLambPhyisics(_ lamb: SKSpriteNode) {
-        lamb.physicsBody = SKPhysicsBody(rectangleOf: lamb.size)
-        lamb.physicsBody?.isDynamic = false
-        lamb.name = "Lamb"
-        sheep.physicsBody?.contactTestBitMask += Lamb.bitmask.rawValue
     }
     
     func sheepMove() {
@@ -152,7 +168,14 @@ extension GameScene {
         self.physicsWorld.contactDelegate = self
     }
 
-    @objc func firedTimer() {
+    @objc func generateLamb() {
+        func setLambPhyisics(_ lamb: SKSpriteNode) {
+            lamb.physicsBody = SKPhysicsBody(rectangleOf: lamb.size)
+            lamb.physicsBody?.isDynamic = false
+            lamb.name = "Lamb"
+            sheep.physicsBody?.contactTestBitMask += Lamb.bitmask.rawValue
+        }
+        
         let lamb: SKSpriteNode = SKSpriteNode(imageNamed: "Lamb")
         let Xcordinate = Int.random(in: 100...Int(UIScreen.main.bounds.width))
         let Ycordinate = Int.random(in: 100...Int(UIScreen.main.bounds.height))
@@ -161,6 +184,16 @@ extension GameScene {
         lamb.size.height *= 0.05
         setLambPhyisics(lamb)
         addChild(lamb)
+    }
+    
+    func calculateColdResistance() -> CGFloat {
+        var coldResistance = 0.0
+        accessories.forEach { coldResistance += $0.resistance }
+        return coldResistance
+    }
+    
+    @objc func increaseCold() {
+        progressBar.updateBarState()
     }
 }
 
