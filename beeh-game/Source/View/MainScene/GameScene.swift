@@ -62,8 +62,12 @@ class GameScene: SKScene {
         sheepMove()
         physicsSetup()
         progressBar.initializeBarValue()
+        configureTimers()
+    }
+    
+    func configureTimers() {
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(increaseCold), userInfo: nil, repeats: true)
-        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(generateLamb), userInfo: nil, repeats: true)
     }
 }
 
@@ -108,13 +112,6 @@ extension GameScene {
         sheep.position.x += joystick.velocityX
         sheep.position.y += joystick.velocityY
     }
-
-    func setLambPhyisics(_ lamb: SKSpriteNode) {
-        lamb.physicsBody = SKPhysicsBody(rectangleOf: lamb.size)
-        lamb.physicsBody?.isDynamic = false
-        lamb.name = "Lamb"
-        sheep.physicsBody?.contactTestBitMask += Lamb.bitmask.rawValue
-    }
     
     func sheepMove() {
         sheep.run(
@@ -153,7 +150,14 @@ extension GameScene {
         self.physicsWorld.contactDelegate = self
     }
 
-    @objc func firedTimer() {
+    @objc func generateLamb() {
+        func setLambPhyisics(_ lamb: SKSpriteNode) {
+            lamb.physicsBody = SKPhysicsBody(rectangleOf: lamb.size)
+            lamb.physicsBody?.isDynamic = false
+            lamb.name = "Lamb"
+            sheep.physicsBody?.contactTestBitMask += Lamb.bitmask.rawValue
+        }
+        
         let lamb: SKSpriteNode = SKSpriteNode(imageNamed: "Lamb")
         let Xcordinate = Int.random(in: 100...Int(UIScreen.main.bounds.width))
         let Ycordinate = Int.random(in: 100...Int(UIScreen.main.bounds.height))
