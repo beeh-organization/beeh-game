@@ -73,7 +73,7 @@ extension Joystick {
             if joystickBack.frame.contains(location) {
                 joystickButton.position = location
             } else {
-                joystickButton.position = CGPoint(x: joystickBack.position.x - distanceX, y: joystickBack.position.y - distanceY)
+                joystickButton.position = CGPoint(x: joystickBack.position.x - distanceX, y: joystickBack.position.y + distanceY)
             }
             
             velocityX = (joystickButton.position.x - joystickBack.position.x)/5
