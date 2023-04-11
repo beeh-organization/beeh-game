@@ -13,6 +13,7 @@ import HorizontalProgressBar
 
 class GameScene: SKScene {
     var capturedLambs: [SKNode] = [SKNode]()
+    var cam: SKCameraNode = SKCameraNode()
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
@@ -36,6 +37,12 @@ class GameScene: SKScene {
     }
     enum Lamb: UInt32{
         case bitmask = 6
+    }
+    private func cameraSetup() {
+        cam.zPosition = 10
+        cam.position = CGPoint(x: size.width/2, y: size.height/2)
+        camera = cam
+
     }
 
     private lazy var joystick: Joystick = {
@@ -74,6 +81,11 @@ class GameScene: SKScene {
 // - MARK: Setup
 
 extension GameScene: ViewCoding {
+    func addionalConfiguration() {
+        physicsSetup()
+        cameraSetup()
+    }
+    
     func setupConstraints() {
         guard let view = view else { return }
         background.anchorPoint = CGPoint.zero
@@ -90,17 +102,22 @@ extension GameScene: ViewCoding {
         enemy.position = CGPoint(x: frame.maxX * 0.20, y: frame.maxY * 0.9)
         enemy.size.width *= 0.2
         enemy.size.height *= 0.2
-        
-        joystick.position = CGPoint(x: view.frame.maxX * 0.1, y:  view.frame.maxY * 0.15)
+
+        joystick.position = CGPoint(
+            x: -size.width * 0.37,
+            y: -size.height * 0.35
+        )
+
         progressBar.position = CGPoint(x: view.frame.maxX * 0.82, y:  view.frame.maxY * 0.92)
     }
     
     func addViewHierarchy() {
         addChild(background)
         addChild(sheep)
-        addChild(joystick)
         addChild(tree)
         addChild(enemy)
+        addChild(cam)
+        cam.addChild(joystick)
         addChild(progressBar)
     }
 }
@@ -111,6 +128,7 @@ extension GameScene {
     override func update(_ currentTime: TimeInterval) {
         sheep.position.x += joystick.velocityX
         sheep.position.y += joystick.velocityY
+        cam.position = sheep.position
     }
     
     func sheepMove() {
