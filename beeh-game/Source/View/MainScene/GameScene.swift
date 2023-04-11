@@ -37,7 +37,6 @@ class GameScene: SKScene {
         case bitmask = 6
     }
     private func cameraSetup() {
-        cam = SKCameraNode()
         cam.zPosition = 10
         cam.position = CGPoint(x: size.width/2, y: size.height/2)
         camera = cam
@@ -55,13 +54,6 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
-        sheepMove()
-        physicsSetup()
-        cameraSetup()
-
-
-        
-
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(firedTimer), userInfo: nil, repeats: true)
     }
 }
@@ -69,6 +61,11 @@ class GameScene: SKScene {
 // - MARK: Setup
 
 extension GameScene: ViewCoding {
+    func addionalConfiguration() {
+        physicsSetup()
+        cameraSetup()
+    }
+    
     func setupConstraints() {
         guard let view = view else { return }
         background.anchorPoint = CGPoint.zero
@@ -86,16 +83,19 @@ extension GameScene: ViewCoding {
         enemy.size.width *= 0.2
         enemy.size.height *= 0.2
         
-        joystick.position = CGPoint(x: view.frame.maxX * 0.1, y:  view.frame.maxY * 0.15)
+        joystick.position = CGPoint(
+            x: -size.width * 0.37,
+            y: -size.height * 0.35
+        )
     }
     
     func addViewHierarchy() {
         addChild(background)
         addChild(sheep)
-        addChild(joystick)
         addChild(tree)
         addChild(enemy)
         addChild(cam)
+        cam.addChild(joystick)
     }
 }
 
