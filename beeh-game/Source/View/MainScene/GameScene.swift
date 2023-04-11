@@ -108,8 +108,8 @@ extension GameScene: ViewCoding {
             y: -size.height * 0.35
         )
 
-        progressBar.position = CGPoint(  x: size.width * 0.25,
-                                         y: size.height * 0.45)
+        progressBar.position = CGPoint(  x: size.width * 0.30,
+                                         y: size.height * 0.42)
     }
     
     func addViewHierarchy() {
