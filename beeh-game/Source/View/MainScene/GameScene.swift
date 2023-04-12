@@ -100,11 +100,6 @@ class GameScene: SKScene {
 // - MARK: Setup
 
 extension GameScene: ViewCoding {
-    func addionalConfiguration() {
-        physicsSetup()
-        cameraSetup()
-    }
-    
     func setupConstraints() {
         guard let view = view else { return }
         
