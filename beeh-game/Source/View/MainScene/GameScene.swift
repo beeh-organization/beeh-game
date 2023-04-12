@@ -12,10 +12,15 @@ import HorizontalProgressBar
 //- MARK: Init Variables
 
 class GameScene: SKScene {
+
+
     var capturedLambs: [SKNode] = [SKNode]()
     var cam: SKCameraNode = SKCameraNode()
     private let border: SKSpriteNode = SKSpriteNode()
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
+
+//    let xInset: CGPoint = CGPoint(x: background.frame, y: background.frame)
+
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
         return SKSpriteNode(texture: atlas.textureNamed("sheep_walk01"))
@@ -100,18 +105,19 @@ extension GameScene: ViewCoding {
         
         background.anchorPoint = CGPoint.zero
         background.zPosition = -1
+
         
         sheep.position = CGPoint(x: view.frame.midX, y:  view.frame.midY + 200)
-        sheep.size.width *= 0.25
-        sheep.size.height *= 0.25
+        sheep.size.width *= 0.3
+        sheep.size.height *= 0.3
 
         tree.position = CGPoint(x: frame.maxX * 0.9, y: frame.maxY * 0.20)
         tree.size.width *= 0.2
         tree.size.height *= 0.2
 
         enemy.position = CGPoint(x: frame.maxX * 0.20, y: frame.maxY * 0.9)
-        enemy.size.width *= 0.2
-        enemy.size.height *= 0.2
+        enemy.size.width *= 0.18
+        enemy.size.height *= 0.18
 
         joystick.position = CGPoint(
             x: -size.width * 0.37,
@@ -217,8 +223,8 @@ extension GameScene {
         }
         
         let lamb: SKSpriteNode = SKSpriteNode(imageNamed: "Lamb")
-        let Xcordinate = Int.random(in: 100...Int(UIScreen.main.bounds.width))
-        let Ycordinate = Int.random(in: 100...Int(UIScreen.main.bounds.height))
+        let Xcordinate = Int.random(in: 0...Int(background.frame.width))
+        let Ycordinate = Int.random(in: 0...Int(background.frame.height))
         lamb.position = CGPoint(x: Xcordinate, y: Ycordinate)
         lamb.size.width *= 0.05
         lamb.size.height *= 0.05

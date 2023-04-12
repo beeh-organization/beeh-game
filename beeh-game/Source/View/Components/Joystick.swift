@@ -38,11 +38,11 @@ class Joystick: SKNode {
 
 extension Joystick: ViewCoding {
     func setupConstraints() {
-        joystickBack.size.width *= 1.3
-        joystickBack.size.height *= 1.3
+        joystickBack.size.width *= 1.5
+        joystickBack.size.height *= 1.5
      
-        joystickButton.size.width *= 1.3
-        joystickButton.size.height *= 1.3
+        joystickButton.size.width *= 1.5
+        joystickButton.size.height *= 1.5
         joystickButton.position = joystickBack.position
         joystickButton.zPosition = 1
     }
