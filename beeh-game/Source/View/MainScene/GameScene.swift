@@ -12,15 +12,16 @@ import HorizontalProgressBar
 //- MARK: Init Variables
 
 class GameScene: SKScene {
-    var capturedLambs: [SKNode] = [SKNode]()
-    var cam: SKCameraNode = SKCameraNode()
     private let border: SKSpriteNode = SKSpriteNode()
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
         return SKSpriteNode(texture: atlas.textureNamed("sheep_walk01"))
     }()
-
+    private(set) var increaseColdTimer: Timer!
+    private(set) var generateLambTimer: Timer!
+    var capturedLambs: [SKNode] = [SKNode]()
+    var cam: SKCameraNode = SKCameraNode()
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
     let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "lobinho")
     let accessories: [Accessory] = [Scarf()]
@@ -79,8 +80,20 @@ class GameScene: SKScene {
     }
     
     func configureTimers() {
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(increaseCold), userInfo: nil, repeats: true)
-        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(generateLamb), userInfo: nil, repeats: true)
+        increaseColdTimer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(increaseCold),
+            userInfo: nil,
+            repeats: true
+        )
+        generateLambTimer = Timer.scheduledTimer(
+            timeInterval: 3.0,
+            target: self,
+            selector: #selector(generateLamb),
+            userInfo: nil,
+            repeats: true
+        )
     }
 }
 
@@ -234,6 +247,10 @@ extension GameScene {
     
     @objc func increaseCold() {
         progressBar.updateBarState()
+    }
+    
+    func updateLevel() {
+        
     }
 }
 
