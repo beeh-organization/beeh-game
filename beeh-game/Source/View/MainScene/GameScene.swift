@@ -72,11 +72,6 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
-        sheepMove()
-        physicsSetup()
-        progressBar.initializeBarValue()
-        configureTimers()
-        setupCamera()
     }
     
     func configureTimers() {
@@ -100,6 +95,14 @@ class GameScene: SKScene {
 // - MARK: Setup
 
 extension GameScene: ViewCoding {
+    func addionalConfiguration() {
+        sheepMove()
+        physicsSetup()
+        progressBar.initializeBarValue()
+        configureTimers()
+        cameraSetup()
+    }
+    
     func setupConstraints() {
         guard let view = view else { return }
         
