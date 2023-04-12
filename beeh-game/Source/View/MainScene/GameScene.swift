@@ -14,7 +14,6 @@ import HorizontalProgressBar
 class GameScene: SKScene {
     var capturedLambs: [SKNode] = [SKNode]()
     var cam: SKCameraNode = SKCameraNode()
-    private let border: SKSpriteNode = SKSpriteNode()
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
@@ -39,11 +38,6 @@ class GameScene: SKScene {
     enum Lamb: UInt32{
         case bitmask = 6
     }
-
-    enum Border: UInt32{
-        case bitmask = 8
-    }
-    
     private func cameraSetup() {
         cam.zPosition = 10
         cam.position = CGPoint(x: size.width/2, y: size.height/2)
@@ -94,10 +88,6 @@ extension GameScene: ViewCoding {
     
     func setupConstraints() {
         guard let view = view else { return }
-        
-        border.anchorPoint = CGPoint.zero
-        border.zPosition = -1
-        
         background.anchorPoint = CGPoint.zero
         background.zPosition = -1
         
@@ -129,8 +119,7 @@ extension GameScene: ViewCoding {
         addChild(enemy)
         addChild(cam)
         cam.addChild(joystick)
-        addChild(progressBar)
-        addChild(border)
+        cam.addChild(progressBar)
     }
 }
 
@@ -157,9 +146,6 @@ extension GameScene {
     }
 
     func physicsSetup() {
-        border.physicsBody = SKPhysicsBody(edgeLoopFrom: background.frame)
-        border.physicsBody?.isDynamic = false
-        
         sheep.physicsBody = SKPhysicsBody(rectangleOf: sheep.size)
         sheep.physicsBody?.affectedByGravity = false
         sheep.physicsBody?.allowsRotation = false
@@ -172,7 +158,6 @@ extension GameScene {
 
         tree.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
         enemy.physicsBody?.categoryBitMask = Enemy.bitmask.rawValue
-        border.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
 
         sheep.physicsBody?.collisionBitMask = Obstable.bitmask.rawValue
 
