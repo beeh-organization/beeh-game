@@ -75,6 +75,7 @@ class GameScene: SKScene {
         physicsSetup()
         progressBar.initializeBarValue()
         configureTimers()
+        setupCamera()
     }
     
     func configureTimers() {
@@ -181,6 +182,30 @@ extension GameScene {
         sheep.physicsBody?.contactTestBitMask = Enemy.bitmask.rawValue
 
         self.physicsWorld.contactDelegate = self
+    }
+
+    func setupCamera() {
+      guard let camera = camera, let view = view else { return }
+      let zeroDistance = SKRange(constantValue: 0)
+      let sheepConstraint = SKConstraint.distance(zeroDistance,
+    // 1
+    to: sheep)
+    let xInset = min(view.bounds.width/2 * camera.xScale,
+                     background.frame.width/2)
+    let yInset = min(view.bounds.height/2 * camera.yScale,
+                     background.frame.height/2)
+    // 2
+    let constraintRect = background.frame.insetBy(dx: xInset,
+    // 3
+    dy: yInset)
+      let xRange = SKRange(lowerLimit: constraintRect.minX,
+                           upperLimit: constraintRect.maxX)
+      let yRange = SKRange(lowerLimit: constraintRect.minY,
+                           upperLimit: constraintRect.maxY)
+      let edgeConstraint = SKConstraint.positionX(xRange, y: yRange)
+      edgeConstraint.referenceNode = background
+      // 4
+      camera.constraints = [sheepConstraint, edgeConstraint]
     }
 
     @objc func generateLamb() {
