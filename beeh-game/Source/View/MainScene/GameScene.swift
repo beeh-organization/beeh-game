@@ -72,6 +72,15 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
+        run(
+            SKAction.repeat(
+                SKAction.sequence([
+                    SKAction.run(updateLevel),
+                    SKAction.wait(forDuration: 10)
+                ]),
+                count: 5
+            )
+        )
     }
     
     func configureTimers() {
@@ -248,7 +257,7 @@ extension GameScene {
     }
     
     func updateLevel() {
-        
+        progressBar.factor += 2.5
     }
 }
 
