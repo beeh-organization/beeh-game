@@ -21,6 +21,7 @@
 		0075EC9D29D5C6F500FD4087 /* beeh_gameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075EC9C29D5C6F500FD4087 /* beeh_gameTests.swift */; };
 		0075ECA729D5C6F500FD4087 /* beeh_gameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075ECA629D5C6F500FD4087 /* beeh_gameUITests.swift */; };
 		0075ECA929D5C6F500FD4087 /* beeh_gameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075ECA829D5C6F500FD4087 /* beeh_gameUITestsLaunchTests.swift */; };
+		00B3DC6B29F6B4A200923910 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */; };
 		64A1D18A29DDADFA00B29A22 /* LambModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A1D18929DDADFA00B29A22 /* LambModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		0075ECA229D5C6F500FD4087 /* beeh-gameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "beeh-gameUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0075ECA629D5C6F500FD4087 /* beeh_gameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beeh_gameUITests.swift; sourceTree = "<group>"; };
 		0075ECA829D5C6F500FD4087 /* beeh_gameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beeh_gameUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		64A1D18929DDADFA00B29A22 /* LambModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LambModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +109,7 @@
 		00582AFD29DC526A00E70FA8 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				00B3DC6929F6B48F00923910 /* Extension */,
 				64A1D18829DDADE100B29A22 /* Model */,
 				00582AFC29DC526400E70FA8 /* Protocol */,
 				0075ECBB29D5CBF300FD4087 /* View */,
@@ -203,6 +206,14 @@
 				0075EC8A29D5C6F300FD4087 /* GameViewController.swift */,
 			);
 			path = MainScene;
+			sourceTree = "<group>";
+		};
+		00B3DC6929F6B48F00923910 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		64A1D18829DDADE100B29A22 /* Model */ = {
@@ -359,6 +370,7 @@
 				0031D69529E44FF600852A4C /* Scarf.swift in Sources */,
 				0075EC8329D5C6F300FD4087 /* AppDelegate.swift in Sources */,
 				64A1D18A29DDADFA00B29A22 /* LambModel.swift in Sources */,
+				00B3DC6B29F6B4A200923910 /* CGPointExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
