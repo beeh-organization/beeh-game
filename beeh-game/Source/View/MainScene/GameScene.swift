@@ -20,7 +20,7 @@ class GameScene: SKScene {
     private(set) var generateLambTimer: Timer!
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
     let accessories: [Accessory] = [Scarf()]
-    var enemySpeed = 3.0
+    var enemySpeed = 1.0
     var enemyFrequency = 15.0
     var enemies: Set<SKSpriteNode> = Set<SKSpriteNode>()
     
@@ -45,7 +45,9 @@ class GameScene: SKScene {
     
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
-        return SKSpriteNode(texture: atlas.textureNamed("sheep_walk01"))
+        let sheep = SKSpriteNode(texture: atlas.textureNamed("sheep_walk01"))
+        sheep.zPosition = 2
+        return sheep
     }()
     
     private lazy var joystick: Joystick = {
@@ -265,16 +267,15 @@ extension GameScene {
     }
     
     private func generateEnemy() {
-        let node = SKSpriteNode(imageNamed: "lobinho")
+        let node = SKSpriteNode(imageNamed: "wolf_atack01")
         node.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 200, height: 400))
         node.physicsBody?.isDynamic = false
         node.physicsBody?.categoryBitMask = Enemy.bitmask.rawValue
         
-        node.position = CGPoint(x: sheep.position.x + CGFloat(Int.random(in: 500..<1000)), y: sheep.position.y + CGFloat(Int.random(in: 500..<1000)))
+        node.position = CGPoint(x: sheep.position.x + CGFloat(Int.random(in: 500..<800)), y: sheep.position.y + CGFloat(Int.random(in: 500..<800)))
         node.size.width *= 0.2
         node.size.height *= 0.2
         
-        node.scene?.backgroundColor = .black
         enemies.insert(node)
         node.name = "lobinho"
         addChild(node)
@@ -291,10 +292,27 @@ extension GameScene {
                 let sin = sin(angle)
             
                 enemy.position.x -= cos * (enemySpeed + (distanceToSheep < 600 ? 5 : 0 ))
-                enemy.position.y -= sin * (enemySpeed + (distanceToSheep < 600 ? 5  : 0 ))
+                enemy.position.y -= sin * (enemySpeed + (distanceToSheep < 600 ? 5 : 0 ))
+                
+                if !enemy.hasActions() {
+                    enemy.run(
+                        SKAction.repeatForever(
+                            SKAction.animate(
+                                with: SKTextureAtlas(named: "WolfAtack").textureNames.map(SKTexture.init(imageNamed:)),
+                                timePerFrame: 1/4,
+                                resize: false,
+                                restore: true
+                            )
+                        )
+                    )
+                }
             }
+//            else {
+//                enemy.removeAllActions()
+//            }
         }
     }
+    
 }
 
 extension GameScene: SKPhysicsContactDelegate{
