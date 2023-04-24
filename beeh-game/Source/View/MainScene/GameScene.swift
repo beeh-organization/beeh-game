@@ -25,10 +25,7 @@ class GameScene: SKScene {
     }()
     private(set) var increaseColdTimer: Timer!
     private(set) var generateLambTimer: Timer!
-    var capturedLambs: [SKNode] = [SKNode]()
-    var cam: SKCameraNode = SKCameraNode()
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
-    let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "lobinho")
     let accessories: [Accessory] = [Scarf()]
 
     enum Sheep: UInt32{
@@ -127,10 +124,6 @@ extension GameScene: ViewCoding {
         tree.size.width *= 0.2
         tree.size.height *= 0.2
 
-        enemy.position = CGPoint(x: frame.maxX * 0.20, y: frame.maxY * 0.9)
-        enemy.size.width *= 0.18
-        enemy.size.height *= 0.18
-
         joystick.position = CGPoint(
             x: -size.width * 0.37,
             y: -size.height * 0.35
@@ -144,7 +137,6 @@ extension GameScene: ViewCoding {
         addChild(background)
         addChild(sheep)
         addChild(tree)
-        addChild(enemy)
         addChild(cam)
         cam.addChild(joystick)
         cam.addChild(progressBar)
@@ -185,18 +177,12 @@ extension GameScene {
         tree.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         tree.physicsBody?.isDynamic = false
 
-        enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
-        enemy.physicsBody?.isDynamic = false
-
         tree.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
-        enemy.physicsBody?.categoryBitMask = Enemy.bitmask.rawValue
         border.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
 
         sheep.physicsBody?.collisionBitMask = Obstable.bitmask.rawValue
 
         sheep.name = "sheep_walk01"
-        enemy.name = "lobinho"
-
         sheep.physicsBody?.contactTestBitMask = Enemy.bitmask.rawValue
 
         self.physicsWorld.contactDelegate = self
@@ -269,17 +255,42 @@ extension GameScene {
     func updateLevel() {
         progressBar.factor += 2.5
     }
+
+    func enemiesSetup() {
+        run(
+            SKAction.repeatForever(
+                SKAction.sequence([
+                    SKAction.run(generateEnemy),
+                    SKAction.wait(forDuration: 10)
+                ])
+            )
+        )
+    }
+    
+    private func generateEnemy() {
+        let node = SKSpriteNode(imageNamed: "lobinho")
+        node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
+        node.physicsBody?.isDynamic = false
+        node.physicsBody?.categoryBitMask = Enemy.bitmask.rawValue
+        node.name = "lobinho"
+        
+        node.position = CGPoint(x: frame.maxX * 0.20, y: frame.maxY * 0.9)
+        node.size.width *= 0.2
+        node.size.height *= 0.2
+        
+        addChild(node)
+    }
 }
 
 extension GameScene: SKPhysicsContactDelegate{
     func didBegin(_ contact:SKPhysicsContact){
-        if contact.bodyB == enemy.physicsBody {
-            sheep.run(SKAction.sequence([
-                SKAction.fadeOut(withDuration: 0.2),
-                SKAction.fadeIn(withDuration: 0.2)
-            ])
-            )
-        }
+//        if contact.bodyB == enemy.physicsBody {
+//            sheep.run(SKAction.sequence([
+//                SKAction.fadeOut(withDuration: 0.2),
+//                SKAction.fadeIn(withDuration: 0.2)
+//            ])
+//            )
+//        }
 
         if contact.bodyB.node?.name == "Lamb" {
             for child in children {
