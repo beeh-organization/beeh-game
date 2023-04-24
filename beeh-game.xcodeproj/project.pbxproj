@@ -22,6 +22,8 @@
 		0075ECA729D5C6F500FD4087 /* beeh_gameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075ECA629D5C6F500FD4087 /* beeh_gameUITests.swift */; };
 		0075ECA929D5C6F500FD4087 /* beeh_gameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075ECA829D5C6F500FD4087 /* beeh_gameUITestsLaunchTests.swift */; };
 		00B3DC6B29F6B4A200923910 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */; };
+		00B3DC6D29F6F59000923910 /* Wolf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3DC6C29F6F59000923910 /* Wolf.swift */; };
+		00B3DC6F29F6F5BE00923910 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3DC6E29F6F5BE00923910 /* Enemy.swift */; };
 		64A1D18A29DDADFA00B29A22 /* LambModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A1D18929DDADFA00B29A22 /* LambModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +62,8 @@
 		0075ECA629D5C6F500FD4087 /* beeh_gameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beeh_gameUITests.swift; sourceTree = "<group>"; };
 		0075ECA829D5C6F500FD4087 /* beeh_gameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beeh_gameUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
+		00B3DC6C29F6F59000923910 /* Wolf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wolf.swift; sourceTree = "<group>"; };
+		00B3DC6E29F6F5BE00923910 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		64A1D18929DDADFA00B29A22 /* LambModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LambModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				00582AFE29DC534400E70FA8 /* ViewCoding.swift */,
+				00B3DC6E29F6F5BE00923910 /* Enemy.swift */,
 				0031D69129E44F0400852A4C /* Accessory.swift */,
 			);
 			path = Protocol;
@@ -121,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				00582B0129DC60BF00E70FA8 /* Joystick.swift */,
+				00B3DC6C29F6F59000923910 /* Wolf.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -216,9 +222,17 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		00B3DC7029F6F84700923910 /* Bitmask */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bitmask;
+			sourceTree = "<group>";
+		};
 		64A1D18829DDADE100B29A22 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				00B3DC7029F6F84700923910 /* Bitmask */,
 				0031D69329E44FE800852A4C /* Accesories */,
 				64A1D18929DDADFA00B29A22 /* LambModel.swift */,
 			);
@@ -365,6 +379,8 @@
 				0075EC8929D5C6F300FD4087 /* GameScene.swift in Sources */,
 				0031D69229E44F0400852A4C /* Accessory.swift in Sources */,
 				0075EC8B29D5C6F300FD4087 /* GameViewController.swift in Sources */,
+				00B3DC6F29F6F5BE00923910 /* Enemy.swift in Sources */,
+				00B3DC6D29F6F59000923910 /* Wolf.swift in Sources */,
 				00582B0229DC60BF00E70FA8 /* Joystick.swift in Sources */,
 				00582AFF29DC534400E70FA8 /* ViewCoding.swift in Sources */,
 				0031D69529E44FF600852A4C /* Scarf.swift in Sources */,

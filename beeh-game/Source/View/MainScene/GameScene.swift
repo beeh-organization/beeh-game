@@ -18,18 +18,14 @@ class GameScene: SKScene {
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private(set) var increaseColdTimer: Timer!
     private(set) var generateLambTimer: Timer!
+    var wolfs: Set<Wolf> = Set<Wolf>()
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
     let accessories: [Accessory] = [Scarf()]
     var enemySpeed = 1.0
     var enemyFrequency = 15.0
-    var enemies: Set<SKSpriteNode> = Set<SKSpriteNode>()
     
     enum Sheep: UInt32{
         case bitmask = 4
-    }
-    
-    enum Enemy: UInt32{
-        case bitmask = 2
     }
     
     enum Obstable: UInt32{
@@ -46,7 +42,6 @@ class GameScene: SKScene {
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
         let sheep = SKSpriteNode(texture: atlas.textureNamed("sheep_walk01"))
-        sheep.zPosition = 2
         return sheep
     }()
     
@@ -180,7 +175,6 @@ extension GameScene {
         sheep.physicsBody?.collisionBitMask = Obstable.bitmask.rawValue
         
         sheep.name = "sheep_walk01"
-        sheep.physicsBody?.contactTestBitMask = Enemy.bitmask.rawValue
         
         self.physicsWorld.contactDelegate = self
     }
@@ -259,30 +253,26 @@ extension GameScene {
         run(
             SKAction.repeatForever(
                 SKAction.sequence([
-                    SKAction.run(generateEnemy),
+                    SKAction.run(generateWolf),
                     SKAction.wait(forDuration: enemyFrequency)
                 ])
             )
         )
     }
     
-    private func generateEnemy() {
-        let node = SKSpriteNode(imageNamed: "wolf_atack01")
-        node.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 200, height: 400))
-        node.physicsBody?.isDynamic = false
-        node.physicsBody?.categoryBitMask = Enemy.bitmask.rawValue
-        
-        node.position = CGPoint(x: sheep.position.x + CGFloat(Int.random(in: 500..<800)), y: sheep.position.y + CGFloat(Int.random(in: 500..<800)))
-        node.size.width *= 0.2
-        node.size.height *= 0.2
-        
-        enemies.insert(node)
-        node.name = "lobinho"
+    private func generateWolf() {
+        let node = Wolf()
+        node.position = CGPoint(
+            x: sheep.position.x + CGFloat(Int.random(in: 500..<800)),
+            y: sheep.position.y + CGFloat(Int.random(in: 500..<800))
+        )
+        sheep.physicsBody?.contactTestBitMask += node.bitMask
+        wolfs.insert(node)
         addChild(node)
     }
     
     private func verifyDistanceToEnemies() {
-        for enemy in enemies {
+        for enemy in wolfs {
             let distanceToSheep = enemy.position.distance(point: sheep.position)
             if distanceToSheep < 1000 {
                 let dx = enemy.position.x - sheep.position.x
@@ -294,22 +284,8 @@ extension GameScene {
                 enemy.position.x -= cos * (enemySpeed + (distanceToSheep < 600 ? 5 : 0 ))
                 enemy.position.y -= sin * (enemySpeed + (distanceToSheep < 600 ? 5 : 0 ))
                 
-                if !enemy.hasActions() {
-                    enemy.run(
-                        SKAction.repeatForever(
-                            SKAction.animate(
-                                with: SKTextureAtlas(named: "WolfAtack").textureNames.map(SKTexture.init(imageNamed:)),
-                                timePerFrame: 1/4,
-                                resize: false,
-                                restore: true
-                            )
-                        )
-                    )
-                }
+                if !enemy.hasActions() { enemy.atackAction() }
             }
-//            else {
-//                enemy.removeAllActions()
-//            }
         }
     }
     
