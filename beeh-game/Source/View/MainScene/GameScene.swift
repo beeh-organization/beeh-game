@@ -72,15 +72,6 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
-        run(
-            SKAction.repeat(
-                SKAction.sequence([
-                    SKAction.run(updateLevel),
-                    SKAction.wait(forDuration: 10)
-                ]),
-                count: 5
-            )
-        )
     }
     
     func configureTimers() {
@@ -110,6 +101,7 @@ extension GameScene: ViewCoding {
         progressBar.initializeBarValue()
         configureTimers()
         cameraSetup()
+        levelsSetup()
     }
     
     func setupConstraints() {
@@ -250,6 +242,18 @@ extension GameScene {
         var coldResistance = 0.0
         accessories.forEach { coldResistance += $0.resistance }
         return coldResistance
+    }
+    
+    func levelsSetup() {
+        run(
+            SKAction.repeat(
+                SKAction.sequence([
+                    SKAction.run(updateLevel),
+                    SKAction.wait(forDuration: 10)
+                ]),
+                count: 5
+            )
+        )
     }
     
     @objc func increaseCold() {
