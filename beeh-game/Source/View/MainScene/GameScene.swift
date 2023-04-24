@@ -12,15 +12,16 @@ import HorizontalProgressBar
 //- MARK: Init Variables
 
 class GameScene: SKScene {
-    var capturedLambs: [SKNode] = [SKNode]()
-    var cam: SKCameraNode = SKCameraNode()
     private let border: SKSpriteNode = SKSpriteNode()
     private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
         return SKSpriteNode(texture: atlas.textureNamed("sheep_walk01"))
     }()
-
+    private(set) var increaseColdTimer: Timer!
+    private(set) var generateLambTimer: Timer!
+    var capturedLambs: [SKNode] = [SKNode]()
+    var cam: SKCameraNode = SKCameraNode()
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
     let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "lobinho")
     let accessories: [Accessory] = [Scarf()]
@@ -71,16 +72,23 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
-        sheepMove()
-        physicsSetup()
-        progressBar.initializeBarValue()
-        configureTimers()
-        setupCamera()
     }
     
     func configureTimers() {
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(increaseCold), userInfo: nil, repeats: true)
-        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(generateLamb), userInfo: nil, repeats: true)
+        increaseColdTimer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(increaseCold),
+            userInfo: nil,
+            repeats: true
+        )
+        generateLambTimer = Timer.scheduledTimer(
+            timeInterval: 3.0,
+            target: self,
+            selector: #selector(generateLamb),
+            userInfo: nil,
+            repeats: true
+        )
     }
 }
 
@@ -88,8 +96,12 @@ class GameScene: SKScene {
 
 extension GameScene: ViewCoding {
     func addionalConfiguration() {
+        sheepMove()
         physicsSetup()
+        progressBar.initializeBarValue()
+        configureTimers()
         cameraSetup()
+        levelsSetup()
     }
     
     func setupConstraints() {
@@ -232,8 +244,24 @@ extension GameScene {
         return coldResistance
     }
     
+    func levelsSetup() {
+        run(
+            SKAction.repeat(
+                SKAction.sequence([
+                    SKAction.run(updateLevel),
+                    SKAction.wait(forDuration: 10)
+                ]),
+                count: 5
+            )
+        )
+    }
+    
     @objc func increaseCold() {
         progressBar.updateBarState()
+    }
+    
+    func updateLevel() {
+        progressBar.factor += 2.5
     }
 }
 
