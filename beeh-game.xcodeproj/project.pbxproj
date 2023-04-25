@@ -24,6 +24,7 @@
 		00B3DC6B29F6B4A200923910 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */; };
 		00B3DC6D29F6F59000923910 /* Wolf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3DC6C29F6F59000923910 /* Wolf.swift */; };
 		00B3DC6F29F6F5BE00923910 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3DC6E29F6F5BE00923910 /* Enemy.swift */; };
+		649DF2C029F6C92100D55A73 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649DF2BF29F6C92100D55A73 /* GameOverScene.swift */; };
 		64A1D18A29DDADFA00B29A22 /* LambModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A1D18929DDADFA00B29A22 /* LambModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		00B3DC6C29F6F59000923910 /* Wolf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wolf.swift; sourceTree = "<group>"; };
 		00B3DC6E29F6F5BE00923910 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		649DF2BF29F6C92100D55A73 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		64A1D18929DDADFA00B29A22 /* LambModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LambModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				00582B0029DC60B200E70FA8 /* Components */,
+				649DF2BC29F6B05A00D55A73 /* GameOver */,
 				0075ECBC29D5CBFE00FD4087 /* MainScene */,
 			);
 			path = View;
@@ -220,6 +223,12 @@
 				00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */,
 			);
 			path = Extension;
+		649DF2BC29F6B05A00D55A73 /* GameOver */ = {
+			isa = PBXGroup;
+			children = (
+				649DF2BF29F6C92100D55A73 /* GameOverScene.swift */,
+			);
+			path = GameOver;
 			sourceTree = "<group>";
 		};
 		64A1D18829DDADE100B29A22 /* Model */ = {
@@ -368,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				649DF2C029F6C92100D55A73 /* GameOverScene.swift in Sources */,
 				0075EC8929D5C6F300FD4087 /* GameScene.swift in Sources */,
 				0031D69229E44F0400852A4C /* Accessory.swift in Sources */,
 				0075EC8B29D5C6F300FD4087 /* GameViewController.swift in Sources */,
@@ -555,7 +565,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 685GVH2XJC;
+				DEVELOPMENT_TEAM = D77WMSS6V2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -583,7 +593,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 685GVH2XJC;
+				DEVELOPMENT_TEAM = D77WMSS6V2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
