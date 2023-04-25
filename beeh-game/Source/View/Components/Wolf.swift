@@ -47,10 +47,10 @@ extension Wolf: EnemyProtocol {
     }
     
     var duration: TimeInterval {
-        get { return 10 }
+        return 10
     }
     
-    var damage: Int {
+    var damage: CGFloat {
         return 10
     }
 }
