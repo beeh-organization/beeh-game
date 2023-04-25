@@ -12,8 +12,6 @@ import HorizontalProgressBar
 //- MARK: Init Variables
 
 class GameScene: SKScene {
-
-
     var capturedLambs: [SKNode] = [SKNode]()
     var cam: SKCameraNode = SKCameraNode()
     private let border: SKSpriteNode = SKSpriteNode()
@@ -69,7 +67,7 @@ class GameScene: SKScene {
             isAscending: false,
             size: CGSize(width: 400, height: 32)
         )
-        progressBar.factor = 10 - calculateColdResistance()
+        progressBar.factor = 100 - calculateColdResistance()
         progressBar.zPosition = 1
         return progressBar
     }()
@@ -85,7 +83,7 @@ class GameScene: SKScene {
     
     func configureTimers() {
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(increaseCold), userInfo: nil, repeats: true)
-        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(generateLamb), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(generateLamb), userInfo: nil, repeats: true)
     }
 }
 
@@ -240,7 +238,17 @@ extension GameScene {
     
     @objc func increaseCold() {
         progressBar.updateBarState()
-    }
+        if progressBar.progressValue == 0 {
+            let loseAction = SKAction.run() { [weak self] in
+                guard let self = self else { return }
+                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                let gameOverScene = GameOverScene(size: self.size, won: false)
+                gameOverScene.label2.text = "\(capturedLambs.count)"
+                self.view?.presentScene(gameOverScene, transition: reveal)
+            }
+            sheep.run(SKAction.sequence([loseAction]))
+
+        }}
 }
 
 extension GameScene: SKPhysicsContactDelegate{
@@ -258,6 +266,7 @@ extension GameScene: SKPhysicsContactDelegate{
                 if child.physicsBody == contact.bodyB.node?.physicsBody {
                     child.removeFromParent()
                     capturedLambs.append(child)
+                    progressBar.updateBarState(with: progressBar.progressValue + 8)
                     print(capturedLambs.count)
                 }
             }
