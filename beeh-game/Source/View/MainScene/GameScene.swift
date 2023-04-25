@@ -293,14 +293,15 @@ extension GameScene {
 
 extension GameScene: SKPhysicsContactDelegate{
     func didBegin(_ contact:SKPhysicsContact){
-        if contact.bodyB.node?.name == "lobinho" {
+        if let wolf = contact.bodyB.node as? Wolf {
             sheep.run(
                 SKAction.sequence([
                     SKAction.fadeOut(withDuration: 0.2),
                     SKAction.fadeIn(withDuration: 0.2)
                 ])
             )
-            contact.bodyB.node?.removeFromParent()
+            progressBar.updateBarState(with: progressBar.progressValue - wolf.damage)
+            wolf.removeFromParent()
         }
         
         if contact.bodyB.node?.name == "Lamb" {

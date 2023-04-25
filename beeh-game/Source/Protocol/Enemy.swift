@@ -9,7 +9,7 @@ import Foundation
 
 protocol EnemyProtocol: Hashable {
     var duration: TimeInterval { get }
-    var damage: Int { get }
+    var damage: CGFloat { get }
     var bitMask: UInt32 { get }
     func atackAction()
 }
