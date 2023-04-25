@@ -222,17 +222,9 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		00B3DC7029F6F84700923910 /* Bitmask */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Bitmask;
-			sourceTree = "<group>";
-		};
 		64A1D18829DDADE100B29A22 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				00B3DC7029F6F84700923910 /* Bitmask */,
 				0031D69329E44FE800852A4C /* Accesories */,
 				64A1D18929DDADFA00B29A22 /* LambModel.swift */,
 			);
