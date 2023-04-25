@@ -17,6 +17,7 @@ class Wolf: SKSpriteNode {
             size: wolfTexture.size()
         )
         setupWolf()
+        setupLifeTime()
     }
     
     required init?(coder aDecoder: NSCoder) { nil }
@@ -30,6 +31,28 @@ class Wolf: SKSpriteNode {
         self.name = "lobinho"
     }
     
+    func setupLifeTime() {
+        run(
+            SKAction.repeat(
+                SKAction.sequence([
+                    SKAction.wait(forDuration: self.duration),
+                    SKAction.repeat(
+                        SKAction.sequence([
+                            SKAction.fadeOut(withDuration: 0.2),
+                            SKAction.fadeIn(withDuration: 0.2),
+                        ]),
+                        count: 3
+                    ),
+                    SKAction.run(disapear)
+                ]),
+                count: 1
+            )
+        )
+    }
+    
+    func disapear() {
+        self.removeFromParent()
+    }
 }
 
 extension Wolf: EnemyProtocol {
