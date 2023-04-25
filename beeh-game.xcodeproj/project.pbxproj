@@ -223,6 +223,8 @@
 				00B3DC6A29F6B4A200923910 /* CGPointExtension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
 		649DF2BC29F6B05A00D55A73 /* GameOver */ = {
 			isa = PBXGroup;
 			children = (

@@ -59,7 +59,7 @@ class GameScene: SKScene {
             isAscending: false,
             size: CGSize(width: 400, height: 32)
         )
-        progressBar.factor = 100 - calculateColdResistance()
+        progressBar.factor = 2 - calculateColdResistance()
         progressBar.zPosition = 1
         return progressBar
     }()

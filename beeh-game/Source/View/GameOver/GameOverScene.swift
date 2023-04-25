@@ -13,6 +13,8 @@ class ButtonNode: SKSpriteNode {
         super.init(texture: texture, color: color, size: size)
         self.isUserInteractionEnabled = true
     }
+
+    required init?(coder aDecoder: NSCoder) { nil }
 }
 
 class GameOverScene: SKScene {
