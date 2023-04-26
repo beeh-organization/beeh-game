@@ -8,6 +8,7 @@
 import SpriteKit
 import GameplayKit
 import HorizontalProgressBar
+import AVFoundation
 
 //- MARK: Init Variables
 
@@ -23,6 +24,21 @@ class GameScene: SKScene {
     let accessories: [Accessory] = [Scarf()]
     var enemySpeed = 1.0
     var enemyFrequency = 15.0
+    var audioPlayer: AVAudioPlayer!
+
+    func backgroundSound(){
+          let pathSounds = Bundle.main.path(forResource: "beehmusic", ofType: "m4a")!
+          let url = URL(fileURLWithPath: pathSounds)
+          do
+          {
+              audioPlayer = try AVAudioPlayer(contentsOf: url)
+              audioPlayer.volume = 0.15
+              audioPlayer.numberOfLoops = -1
+              audioPlayer?.play()
+          } catch {
+              print(error)
+          }
+      }
     
     enum Sheep: UInt32{
         case bitmask = 4
@@ -72,6 +88,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
+        backgroundSound()
     }
     
     func configureTimers() {
