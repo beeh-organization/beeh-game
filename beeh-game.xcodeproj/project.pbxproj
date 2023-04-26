@@ -26,6 +26,7 @@
 		00B3DC6F29F6F5BE00923910 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3DC6E29F6F5BE00923910 /* Enemy.swift */; };
 		649DF2C029F6C92100D55A73 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649DF2BF29F6C92100D55A73 /* GameOverScene.swift */; };
 		64A1D18A29DDADFA00B29A22 /* LambModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A1D18929DDADFA00B29A22 /* LambModel.swift */; };
+		64CC914229F9641300468EEB /* beehmusic.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 64CC914129F9641300468EEB /* beehmusic.m4a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		00B3DC6E29F6F5BE00923910 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		649DF2BF29F6C92100D55A73 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		64A1D18929DDADFA00B29A22 /* LambModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LambModel.swift; sourceTree = "<group>"; };
+		64CC914129F9641300468EEB /* beehmusic.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = beehmusic.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,7 @@
 		0075ECBA29D5CB6C00FD4087 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				64CC914129F9641300468EEB /* beehmusic.m4a */,
 				0075EC8F29D5C6F400FD4087 /* Assets.xcassets */,
 			);
 			path = Resource;
@@ -354,6 +357,7 @@
 			files = (
 				0075EC8E29D5C6F300FD4087 /* Main.storyboard in Resources */,
 				0075EC9029D5C6F400FD4087 /* Assets.xcassets in Resources */,
+				64CC914229F9641300468EEB /* beehmusic.m4a in Resources */,
 				0075EC9329D5C6F400FD4087 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
