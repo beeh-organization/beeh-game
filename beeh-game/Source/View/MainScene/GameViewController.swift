@@ -8,8 +8,10 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import SwiftUI
 
 class GameViewController: UIViewController {
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +24,7 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         }
     }
+    
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .landscape
@@ -30,4 +33,20 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+}
+
+
+struct GameSpriteView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> GameViewController {
+        let vc = GameViewController()
+        return vc
+    }
+
+    func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
+
+    }
+
+    typealias UIViewControllerType = GameViewController
+
+
 }
