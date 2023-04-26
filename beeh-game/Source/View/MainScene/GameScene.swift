@@ -103,6 +103,7 @@ extension GameScene: ViewCoding {
         cameraSetup()
         levelsSetup()
         enemiesSetup()
+        setupCamera()
     }
     
     func setupConstraints() {

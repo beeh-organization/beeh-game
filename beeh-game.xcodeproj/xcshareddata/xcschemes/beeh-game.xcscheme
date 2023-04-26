@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0075EC7E29D5C6F300FD4087"
-               BuildableName = "beeh-game.app"
+               BuildableName = "Beeh.app"
                BlueprintName = "beeh-game"
                ReferencedContainer = "container:beeh-game.xcodeproj">
             </BuildableReference>
@@ -73,7 +73,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0075EC7E29D5C6F300FD4087"
-            BuildableName = "beeh-game.app"
+            BuildableName = "Beeh.app"
             BlueprintName = "beeh-game"
             ReferencedContainer = "container:beeh-game.xcodeproj">
          </BuildableReference>
@@ -90,7 +90,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0075EC7E29D5C6F300FD4087"
-            BuildableName = "beeh-game.app"
+            BuildableName = "Beeh.app"
             BlueprintName = "beeh-game"
             ReferencedContainer = "container:beeh-game.xcodeproj">
          </BuildableReference>
