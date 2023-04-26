@@ -16,7 +16,8 @@ class GameScene: SKScene {
     var capturedLambs: [SKNode] = [SKNode]()
     var cam: SKCameraNode = SKCameraNode()
     private let border: SKSpriteNode = SKSpriteNode()
-    private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
+//    private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
+    private var background: SKSpriteNode?
     private(set) var increaseColdTimer: Timer!
     private(set) var generateLambTimer: Timer!
     var wolfs: Set<Wolf> = Set<Wolf>()
@@ -40,6 +41,7 @@ class GameScene: SKScene {
           }
       }
     
+    
     enum Sheep: UInt32{
         case bitmask = 4
     }
@@ -54,6 +56,7 @@ class GameScene: SKScene {
     enum Border: UInt32{
         case bitmask = 8
     }
+    
     
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
@@ -91,6 +94,34 @@ class GameScene: SKScene {
         backgroundSound()
     }
     
+    func backgroundNode() -> SKSpriteNode {
+        //
+        let backgroundNode = SKSpriteNode()
+        backgroundNode.anchorPoint = CGPoint.zero
+        backgroundNode.name = "background"
+        backgroundNode.zPosition = -1
+        // 2
+        let background1 = SKSpriteNode(imageNamed: "background1")
+        background1.anchorPoint = CGPoint.zero
+        background1.position = CGPoint(x: 0, y: 0)
+        backgroundNode.addChild(background1)
+        // 3
+        let background2 = SKSpriteNode(imageNamed: "background2")
+        background2.anchorPoint = CGPoint.zero
+        background2.position = CGPoint(x: background1.frame.maxX, y: 0)
+        backgroundNode.addChild(background2)
+        // 3
+        let background3 = SKSpriteNode(imageNamed: "background2")
+        background3.anchorPoint = CGPoint.zero
+        background3.position = CGPoint(x: background2.frame.maxX, y: 0)
+        backgroundNode.addChild(background3)
+        //
+        backgroundNode.size = CGSize(
+            width: background1.size.width + background2.size.width + background3.size.width,
+            height: background1.size.height)
+        return backgroundNode
+    }
+    
     func configureTimers() {
         increaseColdTimer = Timer.scheduledTimer(
             timeInterval: 1,
@@ -107,6 +138,7 @@ class GameScene: SKScene {
             repeats: true
         )
     }
+    
 }
 
 // - MARK: Setup
@@ -128,8 +160,11 @@ extension GameScene: ViewCoding {
         border.anchorPoint = CGPoint.zero
         border.zPosition = -1
         
-        background.anchorPoint = CGPoint.zero
-        background.zPosition = -1
+        background = backgroundNode()
+        background!.anchorPoint = CGPoint.zero
+        background!.position = CGPoint.zero
+        background!.name = "background"
+        addChild(background!)
         
         sheep.position = CGPoint(x: view.frame.midX, y:  view.frame.midY + 200)
         sheep.size.width *= 0.3
@@ -144,7 +179,7 @@ extension GameScene: ViewCoding {
     }
     
     func addViewHierarchy() {
-        addChild(background)
+//        addChild(background)
         addChild(sheep)
         addChild(tree)
         addChild(cam)
@@ -178,6 +213,7 @@ extension GameScene {
     }
     
     func physicsSetup() {
+        guard let background = background else { return }
         border.physicsBody = SKPhysicsBody(edgeLoopFrom: background.frame)
         border.physicsBody?.isDynamic = false
         
@@ -199,6 +235,7 @@ extension GameScene {
     
     func setupCamera() {
         guard let camera = camera, let view = view else { return }
+        guard let background = background else { return }
         let zeroDistance = SKRange(constantValue: 0)
         let sheepConstraint = SKConstraint.distance(zeroDistance,
                                                     // 1
@@ -222,6 +259,7 @@ extension GameScene {
     }
     
     @objc func generateLamb() {
+        guard let background = background else { return }
         func setLambPhyisics(_ lamb: SKSpriteNode) {
             lamb.physicsBody = SKPhysicsBody(rectangleOf: lamb.size)
             lamb.physicsBody?.isDynamic = false
@@ -323,6 +361,7 @@ extension GameScene {
 extension GameScene: SKPhysicsContactDelegate{
     func didBegin(_ contact:SKPhysicsContact){
         if let wolf = contact.bodyB.node as? Wolf {
+            print("contact wolf")
             sheep.run(
                 SKAction.sequence([
                     SKAction.fadeOut(withDuration: 0.2),

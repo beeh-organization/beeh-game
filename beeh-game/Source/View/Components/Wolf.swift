@@ -32,6 +32,7 @@ class Wolf: SKSpriteNode {
     }
     
     func setupLifeTime() {
+        print(#function)
         run(
             SKAction.repeat(
                 SKAction.sequence([
