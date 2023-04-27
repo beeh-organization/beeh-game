@@ -16,7 +16,7 @@ class GameScene: SKScene {
     var capturedLambs: [SKNode] = [SKNode]()
     var cam: SKCameraNode = SKCameraNode()
     private let border: SKSpriteNode = SKSpriteNode()
-//    private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
+    //    private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
     private var background: SKSpriteNode?
     private(set) var increaseColdTimer: Timer!
     private(set) var generateLambTimer: Timer!
@@ -26,20 +26,20 @@ class GameScene: SKScene {
     var enemySpeed = 1.0
     var enemyFrequency = 15.0
     var audioPlayer: AVAudioPlayer!
-
+    
     func backgroundSound(){
-          let pathSounds = Bundle.main.path(forResource: "beehmusic", ofType: "m4a")!
-          let url = URL(fileURLWithPath: pathSounds)
-          do
-          {
-              audioPlayer = try AVAudioPlayer(contentsOf: url)
-              audioPlayer.volume = 0.15
-              audioPlayer.numberOfLoops = -1
-              audioPlayer?.play()
-          } catch {
-              print(error)
-          }
-      }
+        let pathSounds = Bundle.main.path(forResource: "beehmusic", ofType: "m4a")!
+        let url = URL(fileURLWithPath: pathSounds)
+        do
+        {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer.volume = 0.15
+            audioPlayer.numberOfLoops = -1
+            audioPlayer?.play()
+        } catch {
+            print(error)
+        }
+    }
     
     
     enum Sheep: UInt32{
@@ -100,45 +100,61 @@ class GameScene: SKScene {
         backgroundNode.anchorPoint = CGPoint.zero
         backgroundNode.name = "background"
         backgroundNode.zPosition = -1
-        // 2
+        // 1
         let background1 = SKSpriteNode(imageNamed: "background1")
         background1.anchorPoint = CGPoint.zero
         background1.position = CGPoint(x: 0, y: 0)
         backgroundNode.addChild(background1)
-        // 3
+        // 2
         let background2 = SKSpriteNode(imageNamed: "background2")
         background2.anchorPoint = CGPoint.zero
         background2.position = CGPoint(x: background1.frame.maxX, y: 0)
         backgroundNode.addChild(background2)
-        // 3
-        let background3 = SKSpriteNode(imageNamed: "background2")
+//        // 3
+        let background3 = SKSpriteNode(imageNamed: "background3")
         background3.anchorPoint = CGPoint.zero
         background3.position = CGPoint(x: background2.frame.maxX, y: 0)
         backgroundNode.addChild(background3)
-        //
+       // 4
+//        let background4 = SKSpriteNode(imageNamed: "background4")
+//        background4.anchorPoint = CGPoint.zero
+//        background4.position = CGPoint(x: 0, y: background2.frame.minY)
+//        backgroundNode.addChild(background4)
+//        // 5
+//        let background5 = SKSpriteNode(imageNamed: "background5")
+//        background5.anchorPoint = CGPoint.zero
+//        background5.position = CGPoint(x: background4.frame.maxX, y:background2.frame.minY)
+//        backgroundNode.addChild(background5)
+//        // 6
+//        let background6 = SKSpriteNode(imageNamed: "background5")
+//        background6.anchorPoint = CGPoint.zero
+//        background6.position = CGPoint(x: background5.frame.maxX, y:background3.frame.minY)
+//        backgroundNode.addChild(background6)
+        
         backgroundNode.size = CGSize(
-            width: background1.size.width + background2.size.width + background3.size.width,
-            height: background1.size.height)
+            width: background1.size.width + background2.size.width + background3.size.width ,
+            height: background1.size.height
+        )
         return backgroundNode
     }
     
-    func configureTimers() {
-        increaseColdTimer = Timer.scheduledTimer(
-            timeInterval: 1,
-            target: self,
-            selector: #selector(increaseCold),
-            userInfo: nil,
-            repeats: true
-        )
-        generateLambTimer = Timer.scheduledTimer(
-            timeInterval: 3.0,
-            target: self,
-            selector: #selector(generateLamb),
-            userInfo: nil,
-            repeats: true
-        )
-    }
-    
+func configureTimers() {
+    increaseColdTimer = Timer.scheduledTimer(
+        timeInterval: 1,
+        target: self,
+        selector: #selector(increaseCold),
+        userInfo: nil,
+        repeats: true
+    )
+    generateLambTimer = Timer.scheduledTimer(
+        timeInterval: 1.0,
+        target: self,
+        selector: #selector(generateLamb),
+        userInfo: nil,
+        repeats: true
+    )
+}
+
 }
 
 // - MARK: Setup
@@ -173,13 +189,13 @@ extension GameScene: ViewCoding {
         tree.position = CGPoint(x: frame.maxX * 0.9, y: frame.maxY * 0.20)
         tree.size.width *= 0.2
         tree.size.height *= 0.2
-    
+        
         joystick.position = CGPoint(x: -size.width * 0.37, y: -size.height * 0.35)
         progressBar.position = CGPoint(x: size.width * 0.30, y: size.height * 0.42)
     }
     
     func addViewHierarchy() {
-//        addChild(background)
+        //        addChild(background)
         addChild(sheep)
         addChild(tree)
         addChild(cam)
@@ -297,7 +313,7 @@ extension GameScene {
     
     @objc func increaseCold() {
         progressBar.updateBarState()
-       if progressBar.progressValue == 0 {
+        if progressBar.progressValue == 0 {
             let loseAction = SKAction.run() { [weak self] in
                 guard let self = self else { return }
                 let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
@@ -306,7 +322,7 @@ extension GameScene {
                 self.view?.presentScene(gameOverScene, transition: reveal)
             }
             sheep.run(SKAction.sequence([loseAction]))
-
+            
         }
     }
     
@@ -347,7 +363,7 @@ extension GameScene {
                 let angle = atan2(dy, dx)
                 let cos = cos(angle)
                 let sin = sin(angle)
-            
+                
                 enemy.position.x -= cos * (enemySpeed + (distanceToSheep < 600 ? 5 : 0 ))
                 enemy.position.y -= sin * (enemySpeed + (distanceToSheep < 600 ? 5 : 0 ))
                 
@@ -355,7 +371,7 @@ extension GameScene {
             }
         }
     }
-
+    
 }
 
 extension GameScene: SKPhysicsContactDelegate{
