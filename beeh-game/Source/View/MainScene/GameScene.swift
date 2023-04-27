@@ -8,7 +8,6 @@
 import SpriteKit
 import GameplayKit
 import HorizontalProgressBar
-import AVFoundation
 
 //- MARK: Init Variables
 
@@ -22,25 +21,13 @@ class GameScene: SKScene {
     private(set) var generateLambTimer: Timer!
     var wolfs: Set<Wolf> = Set<Wolf>()
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
+    let tractor: SKSpriteNode = SKSpriteNode(imageNamed: "trator")
+    let mill: SKSpriteNode = SKSpriteNode(imageNamed: "moinho")
+    let hay: SKSpriteNode = SKSpriteNode(imageNamed: "feno1")
+    let barn: SKSpriteNode = SKSpriteNode(imageNamed: "celeiro")
     let accessories: [Accessory] = [Scarf()]
     var enemySpeed = 1.0
     var enemyFrequency = 15.0
-    var audioPlayer: AVAudioPlayer!
-    
-    func backgroundSound(){
-        let pathSounds = Bundle.main.path(forResource: "beehmusic", ofType: "m4a")!
-        let url = URL(fileURLWithPath: pathSounds)
-        do
-        {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer.volume = 0.15
-            audioPlayer.numberOfLoops = -1
-            audioPlayer?.play()
-        } catch {
-            print(error)
-        }
-    }
-    
     
     enum Sheep: UInt32{
         case bitmask = 4
@@ -91,7 +78,6 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
-        backgroundSound()
     }
     
     func backgroundNode() -> SKSpriteNode {
@@ -190,6 +176,28 @@ extension GameScene: ViewCoding {
         tree.size.width *= 0.2
         tree.size.height *= 0.2
         
+        tree.position = CGPoint(x: frame.maxX * 0.2, y: frame.maxY * 1.2)
+        tree.zPosition = 1
+        tree.size.width *= 1.2
+        tree.size.height *= 1.2
+
+        tractor.position = CGPoint(x: frame.maxX * 1.2, y: frame.maxY * 0.90)
+        tractor.size.width *= 0.3
+        tractor.size.height *= 0.3
+
+        mill.position = CGPoint(x: frame.maxX * 1.5, y: frame.maxY * 2.3)
+        mill.size.width *= 0.3
+        mill.size.height *= 0.3
+
+        hay.position = CGPoint(x: frame.maxX * 0.7, y: frame.maxY * 1.5)
+        hay.size.width *= 0.6
+        hay.size.height *= 0.6
+
+        barn.position = CGPoint(x: frame.maxX * 0.3, y: frame.maxY * 2.3)
+        barn.zPosition = 1
+        barn.size.width *= 0.4
+        barn.size.height *= 0.4
+    
         joystick.position = CGPoint(x: -size.width * 0.37, y: -size.height * 0.35)
         progressBar.position = CGPoint(x: size.width * 0.30, y: size.height * 0.42)
     }
@@ -198,6 +206,10 @@ extension GameScene: ViewCoding {
         //        addChild(background)
         addChild(sheep)
         addChild(tree)
+        addChild(tractor)
+        addChild(mill)
+        addChild(hay)
+        addChild(barn)
         addChild(cam)
         cam.addChild(joystick)
         cam.addChild(progressBar)
@@ -239,8 +251,24 @@ extension GameScene {
         
         tree.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         tree.physicsBody?.isDynamic = false
+
+        tractor.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        tractor.physicsBody?.isDynamic = false
+
+        mill.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        mill.physicsBody?.isDynamic = false
+
+        hay.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        hay.physicsBody?.isDynamic = false
+
+        barn.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        barn.physicsBody?.isDynamic = false
         
         tree.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        tractor.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        mill.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        hay.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        barn.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
         border.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
         sheep.physicsBody?.collisionBitMask = Obstable.bitmask.rawValue
         

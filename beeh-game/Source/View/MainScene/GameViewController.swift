@@ -9,9 +9,10 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import SwiftUI
+import AVFoundation
 
 class GameViewController: UIViewController {
-    
+    var audioPlayer: AVAudioPlayer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,8 @@ class GameViewController: UIViewController {
             view.showsFPS = true
             view.showsNodeCount = true
         }
+        backgroundSound()
     }
-    
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .landscape
@@ -33,6 +34,20 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+
+    func backgroundSound(){
+          let pathSounds = Bundle.main.path(forResource: "beehmusic", ofType: "m4a")!
+          let url = URL(fileURLWithPath: pathSounds)
+          do
+          {
+              audioPlayer = try AVAudioPlayer(contentsOf: url)
+              audioPlayer.volume = 0.15
+              audioPlayer.numberOfLoops = -1
+              audioPlayer?.play()
+          } catch {
+              print(error)
+          }
+      }
 }
 
 
