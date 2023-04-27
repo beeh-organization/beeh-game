@@ -182,21 +182,21 @@ extension GameScene: ViewCoding {
         tree.size.height *= 1.2
 
         tractor.position = CGPoint(x: frame.maxX * 1.2, y: frame.maxY * 0.90)
-        tractor.size.width *= 0.3
-        tractor.size.height *= 0.3
+        tractor.size.width *= 0.2
+        tractor.size.height *= 0.2
 
         mill.position = CGPoint(x: frame.maxX * 1.5, y: frame.maxY * 2.3)
-        mill.size.width *= 0.3
-        mill.size.height *= 0.3
+        mill.size.width *= 0.2
+        mill.size.height *= 0.2
 
         hay.position = CGPoint(x: frame.maxX * 0.7, y: frame.maxY * 1.5)
-        hay.size.width *= 0.6
-        hay.size.height *= 0.6
+        hay.size.width *= 0.5
+        hay.size.height *= 0.5
 
         barn.position = CGPoint(x: frame.maxX * 0.3, y: frame.maxY * 2.3)
         barn.zPosition = 1
-        barn.size.width *= 0.4
-        barn.size.height *= 0.4
+        barn.size.width *= 0.3
+        barn.size.height *= 0.3
     
         joystick.position = CGPoint(x: -size.width * 0.37, y: -size.height * 0.35)
         progressBar.position = CGPoint(x: size.width * 0.30, y: size.height * 0.42)
