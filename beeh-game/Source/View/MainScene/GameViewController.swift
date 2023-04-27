@@ -21,8 +21,8 @@ class GameViewController: UIViewController {
             let scene = GameScene(size: view.bounds.size)
             view.presentScene(scene)
             view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
+            view.showsFPS = false
+            view.showsNodeCount = false
         }
         backgroundSound()
     }

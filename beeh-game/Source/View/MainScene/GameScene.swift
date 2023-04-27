@@ -63,9 +63,20 @@ class GameScene: SKScene {
     private lazy var progressBar: HorizontalProgressBar = {
         let progressBar = HorizontalProgressBar(
             isAscending: false,
-            size: CGSize(width: 400, height: 32)
+            size: CGSize(width: size.width * 0.3, height: size.height * 0.05)
         )
-        progressBar.factor = 2 - calculateColdResistance()
+        progressBar.factor = 1 - calculateColdResistance()
+//        progressBar.backTexture = SKTexture(
+//            image: UIImage(named: "backBarTexture")!
+//        )
+        progressBar.backTexture = SKTexture(
+            color: UIColor.brown
+        )
+        progressBar.foregroundTexture = SKTexture(
+            color: UIColor(
+                cgColor: CGColor(red: 170, green: 191, blue: 208, alpha: 0.5)
+            )
+        )
         progressBar.zPosition = 1
         return progressBar
     }()
@@ -96,26 +107,26 @@ class GameScene: SKScene {
         background2.anchorPoint = CGPoint.zero
         background2.position = CGPoint(x: background1.frame.maxX, y: 0)
         backgroundNode.addChild(background2)
-//        // 3
+        //        // 3
         let background3 = SKSpriteNode(imageNamed: "background3")
         background3.anchorPoint = CGPoint.zero
         background3.position = CGPoint(x: background2.frame.maxX, y: 0)
         backgroundNode.addChild(background3)
-       // 4
-//        let background4 = SKSpriteNode(imageNamed: "background4")
-//        background4.anchorPoint = CGPoint.zero
-//        background4.position = CGPoint(x: 0, y: background2.frame.minY)
-//        backgroundNode.addChild(background4)
-//        // 5
-//        let background5 = SKSpriteNode(imageNamed: "background5")
-//        background5.anchorPoint = CGPoint.zero
-//        background5.position = CGPoint(x: background4.frame.maxX, y:background2.frame.minY)
-//        backgroundNode.addChild(background5)
-//        // 6
-//        let background6 = SKSpriteNode(imageNamed: "background5")
-//        background6.anchorPoint = CGPoint.zero
-//        background6.position = CGPoint(x: background5.frame.maxX, y:background3.frame.minY)
-//        backgroundNode.addChild(background6)
+        // 4
+        //        let background4 = SKSpriteNode(imageNamed: "background4")
+        //        background4.anchorPoint = CGPoint.zero
+        //        background4.position = CGPoint(x: 0, y: background2.frame.minY)
+        //        backgroundNode.addChild(background4)
+        //        // 5
+        //        let background5 = SKSpriteNode(imageNamed: "background5")
+        //        background5.anchorPoint = CGPoint.zero
+        //        background5.position = CGPoint(x: background4.frame.maxX, y:background2.frame.minY)
+        //        backgroundNode.addChild(background5)
+        //        // 6
+        //        let background6 = SKSpriteNode(imageNamed: "background5")
+        //        background6.anchorPoint = CGPoint.zero
+        //        background6.position = CGPoint(x: background5.frame.maxX, y:background3.frame.minY)
+        //        backgroundNode.addChild(background6)
         
         backgroundNode.size = CGSize(
             width: background1.size.width + background2.size.width + background3.size.width ,
@@ -124,23 +135,23 @@ class GameScene: SKScene {
         return backgroundNode
     }
     
-func configureTimers() {
-    increaseColdTimer = Timer.scheduledTimer(
-        timeInterval: 1,
-        target: self,
-        selector: #selector(increaseCold),
-        userInfo: nil,
-        repeats: true
-    )
-    generateLambTimer = Timer.scheduledTimer(
-        timeInterval: 1.0,
-        target: self,
-        selector: #selector(generateLamb),
-        userInfo: nil,
-        repeats: true
-    )
-}
-
+    func configureTimers() {
+        increaseColdTimer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(increaseCold),
+            userInfo: nil,
+            repeats: true
+        )
+        generateLambTimer = Timer.scheduledTimer(
+            timeInterval: 0.5,
+            target: self,
+            selector: #selector(generateLamb),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
 }
 
 // - MARK: Setup
@@ -180,24 +191,24 @@ extension GameScene: ViewCoding {
         tree.zPosition = 1
         tree.size.width *= 1.2
         tree.size.height *= 1.2
-
+        
         tractor.position = CGPoint(x: frame.maxX * 1.2, y: frame.maxY * 0.90)
         tractor.size.width *= 0.2
         tractor.size.height *= 0.2
-
+        
         mill.position = CGPoint(x: frame.maxX * 1.5, y: frame.maxY * 2.3)
         mill.size.width *= 0.2
         mill.size.height *= 0.2
-
+        
         hay.position = CGPoint(x: frame.maxX * 0.7, y: frame.maxY * 1.5)
         hay.size.width *= 0.5
         hay.size.height *= 0.5
-
+        
         barn.position = CGPoint(x: frame.maxX * 0.3, y: frame.maxY * 2.3)
         barn.zPosition = 1
         barn.size.width *= 0.3
         barn.size.height *= 0.3
-    
+        
         joystick.position = CGPoint(x: -size.width * 0.37, y: -size.height * 0.35)
         progressBar.position = CGPoint(x: size.width * 0.30, y: size.height * 0.42)
     }
@@ -251,16 +262,16 @@ extension GameScene {
         
         tree.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         tree.physicsBody?.isDynamic = false
-
+        
         tractor.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         tractor.physicsBody?.isDynamic = false
-
+        
         mill.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         mill.physicsBody?.isDynamic = false
-
+        
         hay.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         hay.physicsBody?.isDynamic = false
-
+        
         barn.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         barn.physicsBody?.isDynamic = false
         
