@@ -47,13 +47,12 @@ class GameOverScene: SKScene {
         addChild(backgroundGameOver)
 
         let button = ButtonNode(
-            texture: nil,
-            color: .white,
-            size: CGSize(width: 150, height: 50)
-        )
+            imageNamed: "restart"
 
+        )
+        button.size = CGSize(width: 200, height: 100)
         button.position.x = label.position.x
-        button.position.y = label.position.y - 150
+        button.position.y = label.position.y - 170
         button.zPosition = 3
 
         addChild(button)

@@ -8,7 +8,6 @@
 import SpriteKit
 import GameplayKit
 import HorizontalProgressBar
-import AVFoundation
 
 //- MARK: Init Variables
 
@@ -16,29 +15,19 @@ class GameScene: SKScene {
     var capturedLambs: [SKNode] = [SKNode]()
     var cam: SKCameraNode = SKCameraNode()
     private let border: SKSpriteNode = SKSpriteNode()
-    private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
+    //    private let background: SKSpriteNode = SKSpriteNode(imageNamed: "background1")
+    private var background: SKSpriteNode?
     private(set) var increaseColdTimer: Timer!
     private(set) var generateLambTimer: Timer!
     var wolfs: Set<Wolf> = Set<Wolf>()
     let tree: SKSpriteNode = SKSpriteNode(imageNamed: "arvore1")
+    let tractor: SKSpriteNode = SKSpriteNode(imageNamed: "trator")
+    let mill: SKSpriteNode = SKSpriteNode(imageNamed: "moinho")
+    let hay: SKSpriteNode = SKSpriteNode(imageNamed: "feno1")
+    let barn: SKSpriteNode = SKSpriteNode(imageNamed: "celeiro")
     let accessories: [Accessory] = [Scarf()]
     var enemySpeed = 1.0
     var enemyFrequency = 15.0
-    var audioPlayer: AVAudioPlayer!
-
-    func backgroundSound(){
-          let pathSounds = Bundle.main.path(forResource: "beehmusic", ofType: "m4a")!
-          let url = URL(fileURLWithPath: pathSounds)
-          do
-          {
-              audioPlayer = try AVAudioPlayer(contentsOf: url)
-              audioPlayer.volume = 0.15
-              audioPlayer.numberOfLoops = -1
-              audioPlayer?.play()
-          } catch {
-              print(error)
-          }
-      }
     
     enum Sheep: UInt32{
         case bitmask = 4
@@ -54,6 +43,7 @@ class GameScene: SKScene {
     enum Border: UInt32{
         case bitmask = 8
     }
+    
     
     private let sheep: SKSpriteNode = {
         let atlas = SKTextureAtlas(named: "SheepWalk")
@@ -73,9 +63,20 @@ class GameScene: SKScene {
     private lazy var progressBar: HorizontalProgressBar = {
         let progressBar = HorizontalProgressBar(
             isAscending: false,
-            size: CGSize(width: 400, height: 32)
+            size: CGSize(width: size.width * 0.3, height: size.height * 0.05)
         )
-        progressBar.factor = 2 - calculateColdResistance()
+        progressBar.factor = 1 - calculateColdResistance()
+//        progressBar.backTexture = SKTexture(
+//            image: UIImage(named: "backBarTexture")!
+//        )
+        progressBar.backTexture = SKTexture(
+            color: UIColor.brown
+        )
+        progressBar.foregroundTexture = SKTexture(
+            color: UIColor(
+                cgColor: CGColor(red: 170, green: 191, blue: 208, alpha: 0.5)
+            )
+        )
         progressBar.zPosition = 1
         return progressBar
     }()
@@ -88,7 +89,50 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         buildLayout()
-        backgroundSound()
+    }
+    
+    func backgroundNode() -> SKSpriteNode {
+        //
+        let backgroundNode = SKSpriteNode()
+        backgroundNode.anchorPoint = CGPoint.zero
+        backgroundNode.name = "background"
+        backgroundNode.zPosition = -1
+        // 1
+        let background1 = SKSpriteNode(imageNamed: "background1")
+        background1.anchorPoint = CGPoint.zero
+        background1.position = CGPoint(x: 0, y: 0)
+        backgroundNode.addChild(background1)
+        // 2
+        let background2 = SKSpriteNode(imageNamed: "background2")
+        background2.anchorPoint = CGPoint.zero
+        background2.position = CGPoint(x: background1.frame.maxX, y: 0)
+        backgroundNode.addChild(background2)
+        //        // 3
+        let background3 = SKSpriteNode(imageNamed: "background3")
+        background3.anchorPoint = CGPoint.zero
+        background3.position = CGPoint(x: background2.frame.maxX, y: 0)
+        backgroundNode.addChild(background3)
+        // 4
+        //        let background4 = SKSpriteNode(imageNamed: "background4")
+        //        background4.anchorPoint = CGPoint.zero
+        //        background4.position = CGPoint(x: 0, y: background2.frame.minY)
+        //        backgroundNode.addChild(background4)
+        //        // 5
+        //        let background5 = SKSpriteNode(imageNamed: "background5")
+        //        background5.anchorPoint = CGPoint.zero
+        //        background5.position = CGPoint(x: background4.frame.maxX, y:background2.frame.minY)
+        //        backgroundNode.addChild(background5)
+        //        // 6
+        //        let background6 = SKSpriteNode(imageNamed: "background5")
+        //        background6.anchorPoint = CGPoint.zero
+        //        background6.position = CGPoint(x: background5.frame.maxX, y:background3.frame.minY)
+        //        backgroundNode.addChild(background6)
+        
+        backgroundNode.size = CGSize(
+            width: background1.size.width + background2.size.width + background3.size.width ,
+            height: background1.size.height
+        )
+        return backgroundNode
     }
     
     func configureTimers() {
@@ -100,13 +144,14 @@ class GameScene: SKScene {
             repeats: true
         )
         generateLambTimer = Timer.scheduledTimer(
-            timeInterval: 3.0,
+            timeInterval: 0.5,
             target: self,
             selector: #selector(generateLamb),
             userInfo: nil,
             repeats: true
         )
     }
+    
 }
 
 // - MARK: Setup
@@ -128,8 +173,11 @@ extension GameScene: ViewCoding {
         border.anchorPoint = CGPoint.zero
         border.zPosition = -1
         
-        background.anchorPoint = CGPoint.zero
-        background.zPosition = -1
+        background = backgroundNode()
+        background!.anchorPoint = CGPoint.zero
+        background!.position = CGPoint.zero
+        background!.name = "background"
+        addChild(background!)
         
         sheep.position = CGPoint(x: view.frame.midX, y:  view.frame.midY + 200)
         sheep.size.width *= 0.3
@@ -138,15 +186,41 @@ extension GameScene: ViewCoding {
         tree.position = CGPoint(x: frame.maxX * 0.9, y: frame.maxY * 0.20)
         tree.size.width *= 0.2
         tree.size.height *= 0.2
-    
+        
+        tree.position = CGPoint(x: frame.maxX * 0.2, y: frame.maxY * 1.2)
+        tree.zPosition = 1
+        tree.size.width *= 1.2
+        tree.size.height *= 1.2
+        
+        tractor.position = CGPoint(x: frame.maxX * 1.2, y: frame.maxY * 0.90)
+        tractor.size.width *= 0.2
+        tractor.size.height *= 0.2
+        
+        mill.position = CGPoint(x: frame.maxX * 1.5, y: frame.maxY * 2.3)
+        mill.size.width *= 0.2
+        mill.size.height *= 0.2
+        
+        hay.position = CGPoint(x: frame.maxX * 0.7, y: frame.maxY * 1.5)
+        hay.size.width *= 0.5
+        hay.size.height *= 0.5
+        
+        barn.position = CGPoint(x: frame.maxX * 0.3, y: frame.maxY * 2.3)
+        barn.zPosition = 1
+        barn.size.width *= 0.3
+        barn.size.height *= 0.3
+        
         joystick.position = CGPoint(x: -size.width * 0.37, y: -size.height * 0.35)
         progressBar.position = CGPoint(x: size.width * 0.30, y: size.height * 0.42)
     }
     
     func addViewHierarchy() {
-        addChild(background)
+        //        addChild(background)
         addChild(sheep)
         addChild(tree)
+        addChild(tractor)
+        addChild(mill)
+        addChild(hay)
+        addChild(barn)
         addChild(cam)
         cam.addChild(joystick)
         cam.addChild(progressBar)
@@ -178,6 +252,7 @@ extension GameScene {
     }
     
     func physicsSetup() {
+        guard let background = background else { return }
         border.physicsBody = SKPhysicsBody(edgeLoopFrom: background.frame)
         border.physicsBody?.isDynamic = false
         
@@ -188,7 +263,23 @@ extension GameScene {
         tree.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
         tree.physicsBody?.isDynamic = false
         
+        tractor.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        tractor.physicsBody?.isDynamic = false
+        
+        mill.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        mill.physicsBody?.isDynamic = false
+        
+        hay.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        hay.physicsBody?.isDynamic = false
+        
+        barn.physicsBody = SKPhysicsBody(texture: tree.texture!, size: tree.size)
+        barn.physicsBody?.isDynamic = false
+        
         tree.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        tractor.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        mill.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        hay.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
+        barn.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
         border.physicsBody?.categoryBitMask = Obstable.bitmask.rawValue
         sheep.physicsBody?.collisionBitMask = Obstable.bitmask.rawValue
         
@@ -199,6 +290,7 @@ extension GameScene {
     
     func setupCamera() {
         guard let camera = camera, let view = view else { return }
+        guard let background = background else { return }
         let zeroDistance = SKRange(constantValue: 0)
         let sheepConstraint = SKConstraint.distance(zeroDistance,
                                                     // 1
@@ -222,6 +314,7 @@ extension GameScene {
     }
     
     @objc func generateLamb() {
+        guard let background = background else { return }
         func setLambPhyisics(_ lamb: SKSpriteNode) {
             lamb.physicsBody = SKPhysicsBody(rectangleOf: lamb.size)
             lamb.physicsBody?.isDynamic = false
@@ -259,7 +352,7 @@ extension GameScene {
     
     @objc func increaseCold() {
         progressBar.updateBarState()
-       if progressBar.progressValue == 0 {
+        if progressBar.progressValue == 0 {
             let loseAction = SKAction.run() { [weak self] in
                 guard let self = self else { return }
                 let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
@@ -268,7 +361,7 @@ extension GameScene {
                 self.view?.presentScene(gameOverScene, transition: reveal)
             }
             sheep.run(SKAction.sequence([loseAction]))
-
+            
         }
     }
     
@@ -309,7 +402,7 @@ extension GameScene {
                 let angle = atan2(dy, dx)
                 let cos = cos(angle)
                 let sin = sin(angle)
-            
+                
                 enemy.position.x -= cos * (enemySpeed + (distanceToSheep < 600 ? 5 : 0 ))
                 enemy.position.y -= sin * (enemySpeed + (distanceToSheep < 600 ? 5 : 0 ))
                 
@@ -317,12 +410,13 @@ extension GameScene {
             }
         }
     }
-
+    
 }
 
 extension GameScene: SKPhysicsContactDelegate{
     func didBegin(_ contact:SKPhysicsContact){
         if let wolf = contact.bodyB.node as? Wolf {
+            print("contact wolf")
             sheep.run(
                 SKAction.sequence([
                     SKAction.fadeOut(withDuration: 0.2),
